@@ -1,5 +1,134 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* styles/Analytics.css */
+.dashboard {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 6rem 3rem;
+  background: #f8fafc;
+  min-height: 100vh;
+  color: #1f2937;
+
+  width: 100vw;           /* Full viewport width */
+  max-width: 100vw;       /* Remove max-width limit */
+  margin: 0;              /* No margin */
+  box-sizing: border-box;
+  /*color: #2c3e50; deep grey-blue */
+  background: linear-gradient(to bottom right, #e0f2f1, #e3f2fd, #ffffff);
+    /*background-color: #f0f4f8; soft blue-grey */
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  border: none;
+  padding: 10px 16px;
+  background: #e5e7eb;
+  color: #111827;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+.close-btn:hover {
+  background: #d1d5db;
+}
+
+.dashboard-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #374151;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ✅ Always 2 cards per row */
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.card-title {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.card-subtext {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.orange {
+  color: #f97316;
+}
+.red {
+  color: #dc2626;
+}
+.green {
+  color: #16a34a;
+}
+
+.bias-section h3 {
+  font-size: 1.3rem;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.bar-row {
+  margin-bottom: 1.25rem;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+
+.bar-track {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+  border-radius: 6px;
+}
+
+.blue {
+  background-color: #3b82f6;
+}
+.orange-fill {
+  background-color: #f59e0b;
+}
+.red-fill {
+  background-color: #ef4444;
 }
