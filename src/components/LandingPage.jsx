@@ -140,9 +140,12 @@ const LandingPage = () => {
           </div>
         ))}
       </main>
+      <footer className="footer">
+        <p>NewsSetu - Your source for unbiased news</p>
+        <p>© 2025 NewsSetu. All rights reserved.</p>
+      </footer>
     </div>
   );
-  
 };
 
 export default LandingPage;
