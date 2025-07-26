@@ -10,6 +10,7 @@ const App = () => {
     <LandingPage/>
     <Analytics/>
     </>
+  )
 }
 
 export default App
