@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar.jsx'
-import LandingPage from './components/LandingPage.jsx'
-import Analytics from './components/Analytics.jsx'
+import LandingPage from './LandingPage.jsx'
+import Analytics from './Analytics.jsx'
 
 const App = () => {
   return (

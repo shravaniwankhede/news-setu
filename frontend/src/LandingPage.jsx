@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Bookmark, Clock, Calendar } from "lucide-react";
-import '../styles/Landingpage.css';
+import './styles/Landingpage.css';
 
 const LandingPageData = [
   {

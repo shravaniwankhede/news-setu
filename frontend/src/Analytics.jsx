@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Analytics.css";
+import "./styles/Analytics.css";
 
 const Analytics = () => {
   const totalArticles = 1247;
