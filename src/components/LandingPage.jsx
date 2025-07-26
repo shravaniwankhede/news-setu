@@ -29,8 +29,8 @@ const LandingPageData = [
   },
   {
     id: 3,
-    title: "Economic Markets Show Strong Recovery Signs",
-    description: "Global financial markets are showing clear signs of recovery, with major stock indices rising, investor confidence improving, and economic indicators pointing toward sustained growth following a period of volatility.",
+    title: "Economic Markets Are Now Showing Strong Recovery Signs",
+    description: "Global financial markets are showing clear signs of recovery, with major stock indices rising, investor confidence improving, and economic indicators pointing toward sustained growth following a period of volatility.The economic market shows strong recovery, with growth indicators trending upward. Consumer spending and employment rates are also improving steadily.",
     image: "https://i.pinimg.com/1200x/38/d4/d7/38d4d70886c8a2dd73f3e5f1497c8f73.jpg",
     category: "Business",
     publishDate: "2024-01-22",
@@ -85,13 +85,13 @@ const LandingPage = () => {
         <input
           type="text"
           className="search"
-          placeholder="🔍  Search news articles..."
+          placeholder="  Search news articles..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
+        <span className="dropdown-label">Categories: </span>
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-
           <option value="all">All Categories</option>
           <option value="technology">Technology</option>
           <option value="environment">Environment</option>
@@ -101,7 +101,8 @@ const LandingPage = () => {
           <option value="world">World</option>
           <option value="local">Local</option>
         </select>
-
+       
+        <span className="dropdown-label">Bias Level: </span>
         <select value={selectedBias} onChange={(e) => setSelectedBias(e.target.value)}>
           <option value="all">All Bias Levels</option>
           <option value="moderate">Moderate</option>
@@ -128,6 +129,7 @@ const LandingPage = () => {
               </div>
               <h3 className="title">{article.title}</h3>
               <p className="description">{article.description}</p>
+              <span className="biasanal">⎋ Bias Analysis</span>
               <div className="bias">
                 <span className={`badge ${getBiasClass(article.politicalBias)}`}>
                   Political: {article.politicalBias}
@@ -141,12 +143,12 @@ const LandingPage = () => {
         ))}
       </main>
       <footer className="footer">
-        <p>NewsSetu - Your source for unbiased news</p>
-        <p>© 2025 NewsSetu. All rights reserved.</p>
+       <p>NewsSetu - Your gateway to unbiased news </p>
+        <p>© 2025 News App. All rights reserved.</p>
       </footer>
     </div>
   );
+  
 };
 
 export default LandingPage;
-
