@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bookmark, Clock, Calendar } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
+import apiService from "./services/api.js";
 import './styles/Landingpage.css';
 
 const LandingPageData = [
@@ -68,10 +69,59 @@ const LandingPage = ({ onPageChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBias, setSelectedBias] = useState("all");
-  const [articles, setArticles] = useState(LandingPageData);
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const toggleSaved = (id) => {
-    setArticles(articles.map((a) => (a.id === id ? { ...a, saved: !a.saved } : a)));
+  // Fetch news on component mount and when search/category changes
+  useEffect(() => {
+    fetchNews();
+  }, [searchQuery, selectedCategory]);
+
+  const fetchNews = async () => {
+    try {
+      setLoading(true);
+      const response = await apiService.fetchNews(searchQuery, selectedCategory);
+      // Map urlToImage to image for consistency
+      const mappedArticles = (response.articles || []).map(article => ({
+        ...article,
+        image: article.urlToImage || article.image
+      }));
+      setArticles(mappedArticles);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching news:', err);
+      setError('Failed to fetch news. Using sample data.');
+      setArticles(LandingPageData); // Fallback to sample data
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleSaved = async (article) => {
+    try {
+      if (article.saved) {
+        // Delete from saved articles
+        await apiService.deleteArticle(article.id);
+      } else {
+        // Save article
+        await apiService.saveArticle({
+          ...article,
+          userId: 'anonymous' // Default user for now
+        });
+      }
+      
+      // Update local state
+      setArticles(articles.map((a) => 
+        a.id === article.id ? { ...a, saved: !a.saved } : a
+      ));
+    } catch (err) {
+      console.error('Error toggling saved status:', err);
+      // Still update UI for better UX
+      setArticles(articles.map((a) => 
+        a.id === article.id ? { ...a, saved: !a.saved } : a
+      ));
+    }
   };
 
   const filteredArticles = articles.filter((a) => {
@@ -115,11 +165,13 @@ const LandingPage = ({ onPageChange }) => {
         </header>
 
         <main className="articles">
-          {filteredArticles.map((article) => (
+          {loading && <p>Loading articles...</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {!loading && !error && filteredArticles.map((article) => (
             <div className="card" key={article.id}>
               <div className="image-container">
                 <img src={article.image} alt={article.title} className="image" />
-                <button className="save-button" onClick={() => toggleSaved(article.id)}>
+                <button className="save-button" onClick={() => toggleSaved(article)}>
                   <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
                 </button>
                 <button className="summarize" onClick={() => onPageChange('summary')}>✓ Summarize</button>

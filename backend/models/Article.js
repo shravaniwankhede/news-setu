@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-const articleSchema = new mongoose.Schema({
-  id: String,
+const ArticleSchema = new mongoose.Schema({
   title: String,
-  content: String,
-  source: String,
-  publishedAt: Date,
-  language: String,
-  userId: String, // For future user authentication
+  description: String,
+  url: String,
+  summary: String,
+  bias: String,
+  tone: String,
+  fakeNews: String,
+  savedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Article', articleSchema);
+module.exports = mongoose.model('Article', ArticleSchema);
