@@ -68,37 +68,37 @@
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
 }
-.card:hover {
+.cardz:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
 
-.card-title {
+.cardz-title {
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
 
-.card-value {
+.cardz-value {
   font-size: 2rem;
   font-weight: 700;
   margin: 6px 0;
   color: var(--text-primary);
 }
 
-.card-subtext {
+.cardz-subtext {
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
 .orange {
-  color: #f97316;
+  color: #f9700f;
 }
 .red {
-  color: #dc2626;
+  color: #17a2b8;
 }
 .green {
-  color: #16a34a;
+  color: #28a745;
 }
 
 .bias-section h3 {
@@ -133,11 +133,21 @@
 }
 
 .blue {
-  background-color: #3b82f6;
+  background-color: #28a745;
 }
 .orange-fill {
-  background-color: #f59e0b;
+  background-color: #f8b643;
 }
 .red-fill {
-  background-color: #ef4444;
+  background-color: #d63545;
+}
+
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr; /* Stack cards on smaller screens */
+  }
+  .dashboard {
+    padding: 3rem 1.5rem;
+
+}
 }

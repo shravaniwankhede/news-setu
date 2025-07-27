@@ -25,28 +25,28 @@ const Analytics = ({ onPageChange }) => {
       <h2 className="dashboard-subtitle">📊 Bias Analytics Overview</h2>
 
       <div className="cards-grid">
-        <div className="card">
-          <p className="card-title">Total Articles</p>
-          <p className="card-value">{totalArticles}</p>
-          <p className="card-subtext">Analyzed today</p>
+        <div className="cardz">
+          <p className="cardz-title">Total Articles</p>
+          <p className="cardz-value">{totalArticles}</p>
+          <p className="cardz-subtext">Analyzed today</p>
         </div>
 
-        <div className="card">
-          <p className="card-title">Avg Political Bias</p>
-          <p className="card-value orange">{avgPoliticalBias}%</p>
-          <p className="card-subtext">↓ Lower than yesterday</p>
+        <div className="cardz">
+          <p className="cardz-title">Avg Political Bias</p>
+          <p className="cardz-value orange">{avgPoliticalBias}%</p>
+          <p className="cardz-subtext">↓ Lower than yesterday</p>
         </div>
 
-        <div className="card">
-          <p className="card-title">Avg Emotional Bias</p>
-          <p className="card-value red">{avgEmotionalBias}%</p>
-          <p className="card-subtext">↑ Higher than yesterday</p>
+        <div className="cardz">
+          <p className="cardz-title">Avg Emotional Bias</p>
+          <p className="cardz-value red">{avgEmotionalBias}%</p>
+          <p className="cardz-subtext">↑ Higher than yesterday</p>
         </div>
 
-        <div className="card">
-          <p className="card-title">Low Bias Articles</p>
-          <p className="card-value green">{lowBiasArticles}%</p>
-          <p className="card-subtext">Of total articles</p>
+        <div className="cardz">
+          <p className="cardz-title">Low Bias Articles</p>
+          <p className="cardz-value green">{lowBiasArticles}%</p>
+          <p className="cardz-subtext">Of total articles</p>
         </div>
       </div>
 

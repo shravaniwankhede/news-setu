@@ -169,7 +169,7 @@ select {
 }
 
 .bias-low {
-  background-color: #338fff;
+  background-color: #28a745;
 }
 
 .bias-high {
@@ -177,7 +177,7 @@ select {
 }
 
 .bias-moderate {
-  background-color: #28a745;
+  background-color: #f8b643;
 }
 
 .bias-positive {
