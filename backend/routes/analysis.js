@@ -1,13 +1,11 @@
 const express = require('express');
-const Together = require('@together-ai/together');
+const axios = require('axios');
 const router = express.Router();
-
-const together = new Together({ apiKey: process.env.TOGETHER_API_KEY });
 
 router.post('/translate', async (req, res) => {
   const { text, targetLang } = req.body;
   try {
-    const response = await together.chat.completions.create({
+    const response = await axios.post('https://api.together.xyz/v1/chat/completions', {
       model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
       messages: [
         {
@@ -16,8 +14,13 @@ router.post('/translate', async (req, res) => {
         },
         { role: 'user', content: text },
       ],
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.TOGETHER_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
     });
-    const translatedText = response.choices[0].message.content;
+    const translatedText = response.data.choices[0].message.content;
     res.json({ translatedText });
   } catch (error) {
     console.error('Together AI translation error:', error);
@@ -28,7 +31,7 @@ router.post('/translate', async (req, res) => {
 router.post('/summarize', async (req, res) => {
   const { text } = req.body;
   try {
-    const response = await together.chat.completions.create({
+    const response = await axios.post('https://api.together.xyz/v1/chat/completions', {
       model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
       messages: [
         {
@@ -53,8 +56,13 @@ router.post('/summarize', async (req, res) => {
         },
         { role: 'user', content: text },
       ],
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.TOGETHER_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
     });
-    const result = JSON.parse(response.choices[0].message.content);
+    const result = JSON.parse(response.data.choices[0].message.content);
     res.json(result);
   } catch (error) {
     console.error('Together AI analysis error:', error);
