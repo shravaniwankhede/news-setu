@@ -82,72 +82,74 @@ const LandingPage = () => {
   });
 
   return (
-    <div className="app">
-      <header className="header">
-        <input
-          type="text"
-          className="search"
-          placeholder="  Search news articles..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+    <div className="landing-page">
+      <div className="app">
+        <header className="header">
+          <input
+            type="text"
+            className="search"
+            placeholder="  Search news articles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
 
-        <span className="dropdown-label">Categories: </span>
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-          <option value="all">All Categories</option>
-          <option value="technology">Technology</option>
-          <option value="environment">Environment</option>
-          <option value="business">Business</option>
-          <option value="science">Science</option>
-          <option value="politics">Politics</option>
-          <option value="world">World</option>
-          <option value="local">Local</option>
-        </select>
-       
-        <span className="dropdown-label">Bias Level: </span>
-        <select value={selectedBias} onChange={(e) => setSelectedBias(e.target.value)}>
-          <option value="all">All Bias Levels</option>
-          <option value="moderate">Moderate</option>
-          <option value="low">Low</option>
-          <option value="high">High</option>
-        </select>
-      </header>
+          <span className="dropdown-label">Categories: </span>
+          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="all">All Categories</option>
+            <option value="technology">Technology</option>
+            <option value="environment">Environment</option>
+            <option value="business">Business</option>
+            <option value="science">Science</option>
+            <option value="politics">Politics</option>
+            <option value="world">World</option>
+            <option value="local">Local</option>
+          </select>
+         
+          <span className="dropdown-label">Bias Level: </span>
+          <select value={selectedBias} onChange={(e) => setSelectedBias(e.target.value)}>
+            <option value="all">All Bias Levels</option>
+            <option value="moderate">Moderate</option>
+            <option value="low">Low</option>
+            <option value="high">High</option>
+          </select>
+        </header>
 
-      <main className="articles">
-        {filteredArticles.map((article) => (
-          <div className="card" key={article.id}>
-            <div className="image-container">
-              <img src={article.image} alt={article.title} className="image" />
-              <button className="save-button" onClick={() => toggleSaved(article.id)}>
-                <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
-              </button>
-              <button className="summarize">✓ Summarize</button>
-            </div>
-            <div className="content">
-              <div className="meta">
-                <span className="category">{article.category}</span>
-                <span><Clock size={10} /> {article.readTime}</span>
-                <span><Calendar size={10} /> {article.publishDate}</span>
+        <main className="articles">
+          {filteredArticles.map((article) => (
+            <div className="card" key={article.id}>
+              <div className="image-container">
+                <img src={article.image} alt={article.title} className="image" />
+                <button className="save-button" onClick={() => toggleSaved(article.id)}>
+                  <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
+                </button>
+                <button className="summarize">✓ Summarize</button>
               </div>
-              <h3 className="title">{article.title}</h3>
-              <p className="description">{article.description}</p>
-              <span className="biasanal">⎋ Bias Analysis</span>
-              <div className="bias">
-                <span className={`badge ${getBiasClass(article.politicalBias)}`}>
-                  Political: {article.politicalBias}
-                </span>
-                <span className={`badge ${getBiasClass(article.emotionalBias)}`}>
-                  Emotional: {article.emotionalBias}
-                </span>
+              <div className="content">
+                <div className="meta">
+                  <span className="category">{article.category}</span>
+                  <span><Clock size={10} /> {article.readTime}</span>
+                  <span><Calendar size={10} /> {article.publishDate}</span>
+                </div>
+                <h3 className="title">{article.title}</h3>
+                <p className="description">{article.description}</p>
+                <span className="biasanal">⎋ Bias Analysis</span>
+                <div className="bias">
+                  <span className={`badge ${getBiasClass(article.politicalBias)}`}>
+                    Political: {article.politicalBias}
+                  </span>
+                  <span className={`badge ${getBiasClass(article.emotionalBias)}`}>
+                    Emotional: {article.emotionalBias}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </main>
-      <footer className="footer">
-       <p>NewsSetu - Your gateway to unbiased news </p>
-        <p>© 2025 News App. All rights reserved.</p>
-      </footer>
+          ))}
+        </main>
+        <footer className="footer">
+         <p>NewsSetu - Your gateway to unbiased news </p>
+          <p>© 2025 News App. All rights reserved.</p>
+        </footer>
+      </div>
     </div>
   );
   

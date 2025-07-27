@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import "./styles/Analytics.css";
 
-const Analytics = () => {
+const Analytics = ({ onPageChange }) => {
   const { theme } = useTheme();
   const totalArticles = 1247;
   const avgPoliticalBias = 34;
@@ -11,11 +11,15 @@ const Analytics = () => {
   const moderateBias = 35;
   const highBias = 23;
 
+  const handleClose = () => {
+    onPageChange('landing');
+  };
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Analytics Dashboard</h1>
-        <button className="close-btn">✕ Close</button>
+        <button className="close-btn" onClick={handleClose}>✕ Close</button>
       </div>
 
       <h2 className="dashboard-subtitle">📊 Bias Analytics Overview</h2>

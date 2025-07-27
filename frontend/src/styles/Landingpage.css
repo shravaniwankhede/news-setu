@@ -1,28 +1,30 @@
-*{
+/* Landing page specific styles */
+.landing-page {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-}
-
-body {
-  margin: 0;
-  display: flex;
-  min-height: 100%;
+  overflow-x: hidden;
   width: 100%;
-  font-family: Arial, sans-serif;
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  justify-content: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.app {
-  max-width: 1200px;
+.landing-page .app {
   width: 100%;
   height: 100%;
   padding: 100px 20px 40px 20px;
-  margin: 0 auto;
+  margin: 0;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+[data-theme="light"] .landing-page .app {
+  background: linear-gradient(to bottom right, #e0f2f1, #e3f2fd, #ffffff);
+}
+
+[data-theme="dark"] .landing-page .app {
+  background: linear-gradient(to bottom right, #1a1a2e, #16213e, #0f3460);
 }
 
 .header {
@@ -60,7 +62,8 @@ select {
   height: 100%;
   flex-direction: column;
   gap: 40px;
-
+  align-items: center;
+  margin: 0 auto;
 }
 
 .card {
@@ -72,6 +75,7 @@ select {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .image-container {
@@ -216,6 +220,8 @@ select {
 
   .articles {
     gap: 20px;
+    align-items: center;
+    padding: 0 10px;
   }
 
   .card {
@@ -235,12 +241,12 @@ select {
 
   .meta {
     flex-direction: column;
-    align-items: flex-start;
     gap: 10px;
   }
 }
 
 .biasanal {
-  color: var(--text-primary);
-  font-weight: bold;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
 }

@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import Navbar from './components/Navbar.jsx'
 import LandingPage from './LandingPage.jsx'
 import Analytics from './Analytics.jsx'
 
 const App = () => {
+  const [currentPage, setCurrentPage] = useState('landing');
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <ThemeProvider>
-      <Navbar/>
-      <LandingPage/>
-      <Analytics/>
+      <Navbar onPageChange={handlePageChange} currentPage={currentPage} />
+      {currentPage === 'landing' && <LandingPage />}
+      {currentPage === 'analytics' && <Analytics onPageChange={handlePageChange} />}
     </ThemeProvider>
   )
 }
