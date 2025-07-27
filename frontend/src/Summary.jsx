@@ -1,10 +1,15 @@
 import React from 'react';
 import './styles/Summary.css';
 
-const Summary = () => {
+const Summary = ({ onPageChange }) => {
   return (
     <div className="summary-container">
-      <h1 className="logo">NewsSetu</h1>
+      <div className="summary-header">
+        <button className="back-btn" onClick={() => onPageChange('landing')}>
+          ← Back to News
+        </button>
+        <h1 className="logo">NewsSetu</h1>
+      </div>
 
       <div className="summary-box">
         <div className="source-date">

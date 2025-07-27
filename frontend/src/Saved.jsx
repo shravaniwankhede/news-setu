@@ -1,9 +1,9 @@
 // Saved.jsx
 import React, { useState } from "react";
 import "./styles/Saved.css";
-import { Clock, Calendar } from "lucide-react";
+import { Clock, Calendar, Bookmark } from "lucide-react";
 
-const Saved = () => {
+const Saved = ({ onPageChange }) => {
   const [articles, setArticles] = useState([
     {
         id: 3,
@@ -30,8 +30,13 @@ const Saved = () => {
   const savedArticles = articles.filter((article) => article.saved);
 
   return (
-    <div className="saved-page">
-      <h2>🔖 Your Saved Articles</h2>
+    <div className="saved-container">
+      <div className="saved-header">
+        <button className="back-btn" onClick={() => onPageChange('landing')}>
+          ← Back to News
+        </button>
+        <h1 className="saved-title">🔖 Your Saved Articles</h1>
+      </div>
 
       {savedArticles.length === 0 ? (
         <p className="empty-msg">No articles saved yet.</p>
@@ -39,29 +44,28 @@ const Saved = () => {
         <div className="saved-list">
           {savedArticles.map((article) => (
             <div className="saved-card" key={article.id}>
-              <img
-                src={article.image}
-                alt={article.title}
-                className="saved-image"
-              />
-              <div className="saved-content">
-                <h3>{article.title}</h3>
-                <p>{article.description}</p>
-                <div className="metaa">
-                  <span>{article.category}</span>
-                  <span>
-                    <Clock size={12} /> {article.readTime}
-                  </span>
-                  <span>
-                    <Calendar size={12} /> {article.publishDate}
-                  </span>
-                </div>
-                <button
-                  className="unsave-btn"
-                  onClick={() => handleToggleSave(article.id)}
-                >
-                  Remove 
+              <div className="image-container">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="saved-image"
+                />
+                <button className="save-button" onClick={() => handleToggleSave(article.id)}>
+                  <Bookmark className="icon saved" />
                 </button>
+              </div>
+              <div className="saved-content">
+                <div className="meta">
+                  <span className="category">{article.category}</span>
+                  <span><Clock size={10} /> {article.readTime}</span>
+                  <span><Calendar size={10} /> {article.publishDate}</span>
+                </div>
+                <h3 className="title">{article.title}</h3>
+                <p className="description">{article.description}</p>
+                <div className="bias">
+                  <span className="badge bias-high">Political: {article.politicalBias}</span>
+                  <span className="badge bias-positive">Emotional: {article.emotionalBias}</span>
+                </div>
               </div>
             </div>
           ))}

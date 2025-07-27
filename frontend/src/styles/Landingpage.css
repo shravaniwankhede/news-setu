@@ -205,6 +205,8 @@ select {
   color: var(--text-tertiary);
 }
 
+
+
 @media(max-width: 768px) {
   .header {
     flex-direction: column;
@@ -217,6 +219,8 @@ select {
     width: 100%;
     margin-bottom: 10px;
   }
+
+
 
   .articles {
     gap: 20px;

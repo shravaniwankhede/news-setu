@@ -63,7 +63,7 @@ const getBiasClass = (bias) => {
   return "bias-default";
 };
 
-const LandingPage = () => {
+const LandingPage = ({ onPageChange }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -122,7 +122,7 @@ const LandingPage = () => {
                 <button className="save-button" onClick={() => toggleSaved(article.id)}>
                   <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
                 </button>
-                <button className="summarize">✓ Summarize</button>
+                <button className="summarize" onClick={() => onPageChange('summary')}>✓ Summarize</button>
               </div>
               <div className="content">
                 <div className="meta">
