@@ -1,0 +1,92 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .saved-page {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: auto;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+  }
+  
+  .saved-page h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+  
+  .empty-msg {
+    color: #4f586d;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  
+  .saved-list {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .saved-card {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+  }
+  
+  .saved-image {
+    width: 180px;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .saved-content {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .saved-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: #1f2937;
+  }
+  
+  .saved-content p {
+    font-size: 0.95rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metaa {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+    align-items: center;
+  }
+  
+  .metaa svg {
+    margin-right: 4px;
+  }
+  
+  .unsave-btn {
+    padding: 6px 12px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .unsave-btn:hover {
+    background-color: #dc2626;
+  }
+  
