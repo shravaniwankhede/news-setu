@@ -98,21 +98,39 @@
 }
 
 .bias-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    align-self: center;
-  }
-  
-  .bias-button:hover {
-    background: var(--border-color);
-  }
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.bias-button:hover {
+  background: var(--border-color);
+}
+
+.summary-text {
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.summary-text h4 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.summary-text p {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 1rem;
+}
 
 .summary-box {
   background: var(--card-bg);

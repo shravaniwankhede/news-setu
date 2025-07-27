@@ -9,9 +9,13 @@ import About from './About.jsx'
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('landing');
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page, article = null) => {
     setCurrentPage(page);
+    if (article) {
+      setSelectedArticle(article);
+    }
   };
 
   return (
@@ -19,7 +23,7 @@ const App = () => {
       <Navbar onPageChange={handlePageChange} currentPage={currentPage} />
       {currentPage === 'landing' && <LandingPage onPageChange={handlePageChange} />}
       {currentPage === 'analytics' && <Analytics onPageChange={handlePageChange} />}
-      {currentPage === 'summary' && <Summary onPageChange={handlePageChange} />}
+      {currentPage === 'summary' && <Summary onPageChange={handlePageChange} selectedArticle={selectedArticle} />}
       {currentPage === 'saved' && <Saved onPageChange={handlePageChange} />}
       {currentPage === 'about' && <About onPageChange={handlePageChange} />}
     </ThemeProvider>

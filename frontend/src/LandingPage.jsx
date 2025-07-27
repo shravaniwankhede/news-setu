@@ -75,6 +75,7 @@ const LandingPage = ({ onPageChange }) => {
   const [translations, setTranslations] = useState({});
   const [translating, setTranslating] = useState({});
   const [selectedLanguage, setSelectedLanguage] = useState('es');
+  const [selectedArticleForSummary, setSelectedArticleForSummary] = useState(null);
 
   // Fetch news on component mount and when search/category changes
   useEffect(() => {
@@ -158,6 +159,10 @@ const LandingPage = ({ onPageChange }) => {
     }
   };
 
+  const handleSummaryClick = (article) => {
+    onPageChange('summary', article);
+  };
+
   const filteredArticles = articles.filter((a) => {
     const matchesSearch = a.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || a.category.toLowerCase() === selectedCategory;
@@ -222,7 +227,7 @@ const LandingPage = ({ onPageChange }) => {
                 <button className="save-button" onClick={() => toggleSaved(article)}>
                   <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
                 </button>
-                <button className="summarize" onClick={() => onPageChange('summary')}>✓ Summarize</button>
+                <button className="summarize" onClick={() => handleSummaryClick(article)}>✓ Summarize</button>
                 <button 
                   className="translate-button" 
                   onClick={() => translateArticle(article)}
