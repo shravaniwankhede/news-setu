@@ -11,8 +11,10 @@ body {
   min-height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app {
@@ -36,18 +38,20 @@ body {
   flex: 1;
   padding: 10px;
   font-size: 13px;
-  background-color: #f7f7f7;
-  border: 1px solid #bbb7b7;
-  color: #353535;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-light);
+  color: var(--input-text);
+  transition: all 0.3s ease;
 }
 
 select {
   padding: 10px;
   flex: 1;
   font-size: 14px;
-  background-color: #f7f7f7;
-  border: 1px solid #bbb7b7;
-  color: #353535;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-light);
+  color: var(--input-text);
+  transition: all 0.3s ease;
 }
 
 .articles {
@@ -62,11 +66,12 @@ select {
 .card {
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
 }
 
 .image-container {
@@ -88,14 +93,16 @@ select {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(239, 237, 237, 0.937);
+  background: rgba(255, 255, 255, 0.9);
   border: none;
   cursor: pointer;
   padding: 3px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
 .icon {
-  color: gray;
+  color: var(--text-secondary);
 }
 
 
@@ -104,11 +111,13 @@ select {
   bottom: 10px;
   right: 10px;
   font-size: 12px;
-  background: rgba(239, 237, 237, 0.937);
-  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-color);
   padding: 4px 8px;
   cursor: pointer;
-  color: gray;
+  color: var(--text-secondary);
+  border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
 .content {
@@ -121,24 +130,24 @@ select {
   display: flex;
   gap: 50px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
 .category {
   font-weight: bold;
-  color: #444;
+  color: var(--text-tertiary);
 }
 
 .title {
   font-size: 20px;
   margin: 5px 0;
-  color: black;
+  color: var(--text-primary);
 }
 
 .description {
   font-size: 14px;
-  color: #333;
+  color: var(--text-secondary);
   margin-bottom: 10px;
 }
 
@@ -179,16 +188,17 @@ select {
   margin-top: 60px;
   padding: 20px;
   width: 100%;
-  background-color: #f3f3f3;
+  background-color: var(--bg-tertiary);
   text-align: center;
   font-size: 14px;
-  color: #555;
-  border-top: 1px solid #ddd;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
 .dropdown-label {
   font-size: 16px;
-  color: #333;
+  color: var(--text-tertiary);
 }
 
 @media(max-width: 768px) {
@@ -231,6 +241,6 @@ select {
 }
 
 .biasanal {
-  color: black;
+  color: var(--text-primary);
   font-weight: bold;
 }

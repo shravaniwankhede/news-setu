@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
+import { useTheme } from '../context/ThemeContext.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const { theme } = useTheme();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
@@ -27,9 +25,7 @@ const Navbar = () => {
         <div className="fixed-buttons">
           <button className="analytics-btn">⚖︎ Analytics</button>
           <button className="language-btn">⎂ Language</button>
-          <button className="theme-toggle" onClick={toggleTheme}>
-            {theme === "light" ? "☽ Dark Mode" : "☀︎ Light Mode"}
-          </button>
+          <ThemeToggle />
         </div>
       
 

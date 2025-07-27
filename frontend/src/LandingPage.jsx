@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Bookmark, Clock, Calendar } from "lucide-react";
+import { useTheme } from "./context/ThemeContext.jsx";
 import './styles/Landingpage.css';
 
 const LandingPageData = [
@@ -63,6 +64,7 @@ const getBiasClass = (bias) => {
 };
 
 const LandingPage = () => {
+  const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBias, setSelectedBias] = useState("all");

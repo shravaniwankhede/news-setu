@@ -1,7 +1,9 @@
 import React from "react";
+import { useTheme } from "./context/ThemeContext.jsx";
 import "./styles/Analytics.css";
 
 const Analytics = () => {
+  const { theme } = useTheme();
   const totalArticles = 1247;
   const avgPoliticalBias = 34;
   const avgEmotionalBias = 41;

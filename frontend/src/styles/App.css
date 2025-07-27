@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logo {
@@ -38,5 +41,5 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--text-secondary);
 }
