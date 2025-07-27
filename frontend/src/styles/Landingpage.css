@@ -114,14 +114,73 @@ select {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  font-size: 12px;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--border-color);
-  padding: 4px 8px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
   cursor: pointer;
-  color: var(--text-secondary);
-  border-radius: 3px;
+  font-size: 12px;
+  color: #333;
   transition: all 0.3s ease;
+}
+
+.translate-button {
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.translate-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.translate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.translation-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #4CAF50;
+}
+
+.translation-badge {
+  font-size: 12px;
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.reset-translation {
+  background: none;
+  border: 1px solid #4CAF50;
+  color: #4CAF50;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-translation:hover {
+  background: #4CAF50;
+  color: white;
 }
 
 .content {

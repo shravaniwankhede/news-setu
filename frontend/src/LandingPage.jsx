@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Bookmark, Clock, Calendar } from "lucide-react";
+import { Bookmark, Clock, Calendar, Languages } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import './styles/Landingpage.css';
@@ -72,6 +72,9 @@ const LandingPage = ({ onPageChange }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [translations, setTranslations] = useState({});
+  const [translating, setTranslating] = useState({});
+  const [selectedLanguage, setSelectedLanguage] = useState('es');
 
   // Fetch news on component mount and when search/category changes
   useEffect(() => {
@@ -124,6 +127,37 @@ const LandingPage = ({ onPageChange }) => {
     }
   };
 
+  const translateArticle = async (article) => {
+    try {
+      setTranslating(prev => ({ ...prev, [article.id]: true }));
+      
+      const textToTranslate = `${article.title}. ${article.description}`;
+      const response = await apiService.translateText(textToTranslate, selectedLanguage);
+      
+      setTranslations(prev => ({
+        ...prev,
+        [article.id]: {
+          title: response.translatedText.split('. ')[0] + '.',
+          description: response.translatedText.split('. ').slice(1).join('. '),
+          language: selectedLanguage
+        }
+      }));
+    } catch (err) {
+      console.error('Error translating article:', err);
+      // Show error in UI
+      setTranslations(prev => ({
+        ...prev,
+        [article.id]: {
+          title: `[Translation error for ${selectedLanguage}]`,
+          description: article.description,
+          language: selectedLanguage
+        }
+      }));
+    } finally {
+      setTranslating(prev => ({ ...prev, [article.id]: false }));
+    }
+  };
+
   const filteredArticles = articles.filter((a) => {
     const matchesSearch = a.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || a.category.toLowerCase() === selectedCategory;
@@ -162,6 +196,20 @@ const LandingPage = ({ onPageChange }) => {
             <option value="low">Low</option>
             <option value="high">High</option>
           </select>
+
+          <span className="dropdown-label">Translate to: </span>
+          <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="hi">Hindi</option>
+            <option value="zh">Chinese</option>
+            <option value="ar">Arabic</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="pt">Portuguese</option>
+            <option value="ru">Russian</option>
+          </select>
         </header>
 
         <main className="articles">
@@ -175,6 +223,13 @@ const LandingPage = ({ onPageChange }) => {
                   <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
                 </button>
                 <button className="summarize" onClick={() => onPageChange('summary')}>✓ Summarize</button>
+                <button 
+                  className="translate-button" 
+                  onClick={() => translateArticle(article)}
+                  disabled={translating[article.id]}
+                >
+                  {translating[article.id] ? 'Translating...' : <Languages size={16} />}
+                </button>
               </div>
               <div className="content">
                 <div className="meta">
@@ -182,8 +237,29 @@ const LandingPage = ({ onPageChange }) => {
                   <span><Clock size={10} /> {article.readTime}</span>
                   <span><Calendar size={10} /> {article.publishDate}</span>
                 </div>
-                <h3 className="title">{article.title}</h3>
-                <p className="description">{article.description}</p>
+                <h3 className="title">
+                  {translations[article.id] ? translations[article.id].title : article.title}
+                </h3>
+                <p className="description">
+                  {translations[article.id] ? translations[article.id].description : article.description}
+                </p>
+                {translations[article.id] && (
+                  <div className="translation-info">
+                    <span className="translation-badge">
+                      Translated to {translations[article.id].language.toUpperCase()}
+                    </span>
+                    <button 
+                      className="reset-translation" 
+                      onClick={() => setTranslations(prev => {
+                        const newTranslations = { ...prev };
+                        delete newTranslations[article.id];
+                        return newTranslations;
+                      })}
+                    >
+                      Show Original
+                    </button>
+                  </div>
+                )}
                 <span className="biasanal">⎋ Bias Analysis</span>
                 <div className="bias">
                   <span className={`badge ${getBiasClass(article.politicalBias)}`}>
