@@ -181,6 +181,8 @@
   background-color: #d63545;
 }
 
+
+
 @media (max-width: 768px) {
   .analytics-container {
     padding: 3rem 1.5rem;

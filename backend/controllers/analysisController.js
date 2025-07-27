@@ -47,17 +47,91 @@ exports.generateSummary = async (req, res) => {
 // Get analytics dashboard data
 exports.getAnalytics = async (req, res) => {
   try {
-    // Return sample analytics data
+    // Get recent articles to calculate real analytics
+    const Article = require('../models/Article');
+    const mongoose = require('mongoose');
+    
+    // Check if MongoDB is connected
+    if (mongoose.connection.readyState !== 1) {
+      // Return sample analytics if DB not connected
+      const analytics = {
+        totalArticles: 1250,
+        savedArticles: 89,
+        averagePoliticalBias: 34,
+        averageEmotionalBias: 41,
+        biasDistribution: {
+          low: 42,
+          moderate: 35,
+          high: 23
+        }
+      };
+      
+      res.json(analytics);
+      return;
+    }
+
+    // Get all articles from database
+    const articles = await Article.find().sort({ publishedAt: -1 }).limit(100);
+    
+    if (articles.length === 0) {
+      // Return sample data if no articles in DB
+      const analytics = {
+        totalArticles: 1250,
+        savedArticles: 89,
+        averagePoliticalBias: 34,
+        averageEmotionalBias: 41,
+        biasDistribution: {
+          low: 42,
+          moderate: 35,
+          high: 23
+        }
+      };
+      
+      res.json(analytics);
+      return;
+    }
+
+    // Calculate real analytics from articles
+    const totalArticles = articles.length;
+    const savedArticles = articles.filter(article => article.saved).length;
+    
+    // Calculate average bias scores
+    const politicalBiasScores = articles
+      .filter(article => article.analysis && article.analysis.politicalBiasScore)
+      .map(article => article.analysis.politicalBiasScore);
+    
+    const emotionalBiasScores = articles
+      .filter(article => article.analysis && article.analysis.emotionalBiasScore)
+      .map(article => article.analysis.emotionalBiasScore);
+    
+    const averagePoliticalBias = politicalBiasScores.length > 0 
+      ? Math.round(politicalBiasScores.reduce((sum, score) => sum + score, 0) / politicalBiasScores.length)
+      : 50;
+    
+    const averageEmotionalBias = emotionalBiasScores.length > 0
+      ? Math.round(emotionalBiasScores.reduce((sum, score) => sum + score, 0) / emotionalBiasScores.length)
+      : 50;
+
+    // Calculate bias distribution
+    const biasLevels = articles.map(article => {
+      const politicalScore = article.analysis?.politicalBiasScore || 50;
+      if (politicalScore < 30) return 'low';
+      if (politicalScore > 70) return 'high';
+      return 'moderate';
+    });
+
+    const biasDistribution = {
+      low: Math.round((biasLevels.filter(level => level === 'low').length / biasLevels.length) * 100),
+      moderate: Math.round((biasLevels.filter(level => level === 'moderate').length / biasLevels.length) * 100),
+      high: Math.round((biasLevels.filter(level => level === 'high').length / biasLevels.length) * 100)
+    };
+
     const analytics = {
-      totalArticles: 1250,
-      savedArticles: 89,
-      averagePoliticalBias: 34,
-      averageEmotionalBias: 41,
-      biasDistribution: {
-        low: 42,
-        moderate: 35,
-        high: 23
-      }
+      totalArticles,
+      savedArticles,
+      averagePoliticalBias,
+      averageEmotionalBias,
+      biasDistribution
     };
     
     res.json(analytics);

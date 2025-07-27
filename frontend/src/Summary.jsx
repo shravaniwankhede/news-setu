@@ -98,8 +98,6 @@ const Summary = ({ onPageChange, selectedArticle }) => {
                 <p>{summary.summary}</p>
               </div>
             )}
-
-            <button className="bias-button">Bias Detector</button>
           </div>
         </div>
       </div>
