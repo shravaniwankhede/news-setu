@@ -69,7 +69,6 @@ const Navbar = ({ onPageChange, currentPage }) => {
       <div className="nav-links-desktop">
         <a href="#" onClick={handleHomeClick} className={currentPage === 'landing' ? 'active' : ''}>Home</a>
         <a href="#" onClick={() => onPageChange('about')} className={currentPage === 'about' ? 'active' : ''}>About</a>
-        <a href="#" onClick={() => onPageChange('saved')} className={currentPage === 'saved' ? 'active' : ''}>Saved</a>
       </div>
 
       <div className="navbar-right">
@@ -113,7 +112,6 @@ const Navbar = ({ onPageChange, currentPage }) => {
       <div className={`dropdown-menu ${menuOpen ? 'active' : ''}`}>
         <a href="#" onClick={handleHomeClick} className={currentPage === 'landing' ? 'active' : ''}>Home</a>
         <a href="#" onClick={() => onPageChange('about')} className={currentPage === 'about' ? 'active' : ''}>About</a>
-        <a href="#" onClick={() => onPageChange('saved')} className={currentPage === 'saved' ? 'active' : ''}>Saved</a>
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Bookmark, Clock, Calendar, Languages } from "lucide-react";
+import { Clock, Calendar, Languages } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import './styles/Landingpage.css';
@@ -102,31 +102,7 @@ const LandingPage = ({ onPageChange }) => {
     }
   };
 
-  const toggleSaved = async (article) => {
-    try {
-      if (article.saved) {
-        // Delete from saved articles
-        await apiService.deleteArticle(article.id);
-      } else {
-        // Save article
-        await apiService.saveArticle({
-          ...article,
-          userId: 'anonymous' // Default user for now
-        });
-      }
-      
-      // Update local state
-      setArticles(articles.map((a) => 
-        a.id === article.id ? { ...a, saved: !a.saved } : a
-      ));
-    } catch (err) {
-      console.error('Error toggling saved status:', err);
-      // Still update UI for better UX
-      setArticles(articles.map((a) => 
-        a.id === article.id ? { ...a, saved: !a.saved } : a
-      ));
-    }
-  };
+
 
   const translateArticle = async (article) => {
     try {
@@ -224,9 +200,6 @@ const LandingPage = ({ onPageChange }) => {
             <div className="card" key={article.id}>
               <div className="image-container">
                 <img src={article.image} alt={article.title} className="image" />
-                <button className="save-button" onClick={() => toggleSaved(article)}>
-                  <Bookmark className={`icon ${article.saved ? "saved" : ""}`} />
-                </button>
                 <button className="summarize" onClick={() => handleSummaryClick(article)}>✓ Summarize</button>
                 <button 
                   className="translate-button" 

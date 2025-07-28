@@ -40,7 +40,7 @@ const Summary = ({ onPageChange, selectedArticle }) => {
         headline: selectedArticle.title,
         image: selectedArticle.image,
         summary: response.summary,
-        keyPoints: [
+        keyPoints: response.keyPoints || [
           'Key development in the field',
           'Significant impact on industry',
           'Future implications discussed',

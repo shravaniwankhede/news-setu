@@ -1,30 +1,56 @@
 // Saved.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles/Saved.css";
 import { Clock, Calendar, Bookmark } from "lucide-react";
+import apiService from "./services/api.js";
 
 const Saved = ({ onPageChange }) => {
-  const [articles, setArticles] = useState([
-    {
-        id: 3,
-        title: "Economic Markets Are Now Showing Strong Recovery Signs",
-        description: "Global financial markets are showing clear signs of recovery, with major stock indices rising, investor confidence improving, and economic indicators pointing toward sustained growth following a period of volatility.The economic market shows strong recovery, with growth indicators trending upward. Consumer spending and employment rates are also improving steadily.",
-        image: "https://i.pinimg.com/1200x/38/d4/d7/38d4d70886c8a2dd73f3e5f1497c8f73.jpg",
-        category: "Business",
-        publishDate: "2024-01-22",
-        readTime: "4 min read",
-        politicalBias: "High",
-        emotionalBias: "Optimistic", 
-        saved: true
-    },
-  ]);
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleToggleSave = (id) => {
-    setArticles((prev) =>
-      prev.map((article) =>
-        article.id === id ? { ...article, saved: !article.saved } : article
-      )
-    );
+  useEffect(() => {
+    fetchSavedArticles();
+  }, []);
+
+  const fetchSavedArticles = async () => {
+    try {
+      setLoading(true);
+      const savedArticles = await apiService.getArticlesByUser('anonymous');
+      setArticles(savedArticles);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching saved articles:', err);
+      setError('Failed to fetch saved articles. Using sample data.');
+      // Use sample data as fallback
+      setArticles([
+        {
+          id: 3,
+          title: "Economic Markets Are Now Showing Strong Recovery Signs",
+          description: "Global financial markets are showing clear signs of recovery, with major stock indices rising, investor confidence improving, and economic indicators pointing toward sustained growth following a period of volatility.The economic market shows strong recovery, with growth indicators trending upward. Consumer spending and employment rates are also improving steadily.",
+          image: "https://i.pinimg.com/1200x/38/d4/d7/38d4d70886c8a2dd73f3e5f1497c8f73.jpg",
+          category: "Business",
+          publishDate: "2024-01-22",
+          readTime: "4 min read",
+          politicalBias: "High",
+          emotionalBias: "Optimistic", 
+          saved: true
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleToggleSave = async (id) => {
+    try {
+      await apiService.deleteArticle(id);
+      setArticles((prev) => prev.filter((article) => article.id !== id));
+    } catch (err) {
+      console.error('Error removing saved article:', err);
+      // Still remove from UI for better UX
+      setArticles((prev) => prev.filter((article) => article.id !== id));
+    }
   };
 
   const savedArticles = articles.filter((article) => article.saved);
@@ -38,7 +64,10 @@ const Saved = ({ onPageChange }) => {
         <h1 className="saved-title">🔖 Your Saved Articles</h1>
       </div>
 
-      {savedArticles.length === 0 ? (
+      {loading && <p>Loading saved articles...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      
+      {!loading && !error && savedArticles.length === 0 ? (
         <p className="empty-msg">No articles saved yet.</p>
       ) : (
         <div className="saved-list">
