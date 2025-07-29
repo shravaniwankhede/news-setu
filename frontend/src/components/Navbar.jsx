@@ -80,9 +80,7 @@ const Navbar = ({ onPageChange, currentPage }) => {
             ⚖︎ Analytics
           </button>
           <div className="language-dropdown-container" ref={languageDropdownRef}>
-            <button className="language-btn" onClick={toggleLanguageDropdown}>
-              ⎂ {selectedLanguage}
-            </button>
+            
             {languageDropdownOpen && (
               <div className="language-dropdown">
                 {languages.map((language) => (
