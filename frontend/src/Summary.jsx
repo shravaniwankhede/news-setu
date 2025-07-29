@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
 import apiService from './services/api.js';
 import './styles/Summary.css';
 
@@ -18,6 +19,7 @@ const Summary = ({ onPageChange, selectedArticle }) => {
     summary: ''
   });
   const [loading, setLoading] = useState(false);
+  const [ttsState, setTtsState] = useState('stopped');
 
   useEffect(() => {
     if (selectedArticle) {
@@ -54,6 +56,45 @@ const Summary = ({ onPageChange, selectedArticle }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Text-to-Speech functions
+  const speakSummary = () => {
+    if (!('speechSynthesis' in window)) {
+      alert('Text-to-Speech is not supported in this browser');
+      return;
+    }
+
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+
+    const text = `${summary.headline}. ${summary.summary}. Key points: ${summary.keyPoints.join('. ')}`;
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onstart = () => setTtsState('playing');
+    utterance.onend = () => setTtsState('stopped');
+    utterance.onpause = () => setTtsState('paused');
+    utterance.onresume = () => setTtsState('playing');
+    utterance.onerror = () => setTtsState('stopped');
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const pauseSpeech = () => {
+    window.speechSynthesis.pause();
+  };
+
+  const resumeSpeech = () => {
+    window.speechSynthesis.resume();
+  };
+
+  const stopSpeech = () => {
+    window.speechSynthesis.cancel();
+    setTtsState('stopped');
   };
 
   return (
@@ -94,7 +135,39 @@ const Summary = ({ onPageChange, selectedArticle }) => {
             {loading && <p>Generating summary...</p>}
             {summary.summary && (
               <div className="summary-text">
-                <h4>AI Summary</h4>
+                <div className="summary-header-with-tts">
+                  <h4>AI Summary</h4>
+                  <button 
+                    className={`tts-summary-button ${ttsState}`}
+                    onClick={() => {
+                      if (ttsState === 'playing') {
+                        pauseSpeech();
+                      } else if (ttsState === 'paused') {
+                        resumeSpeech();
+                      } else {
+                        speakSummary();
+                      }
+                    }}
+                    title="Listen to summary"
+                  >
+                    {ttsState === 'playing' ? (
+                      <Pause size={16} />
+                    ) : ttsState === 'paused' ? (
+                      <Play size={16} />
+                    ) : (
+                      <Volume2 size={16} />
+                    )}
+                  </button>
+                  {ttsState !== 'stopped' && (
+                    <button 
+                      className="tts-summary-stop-button"
+                      onClick={stopSpeech}
+                      title="Stop listening"
+                    >
+                      <VolumeX size={16} />
+                    </button>
+                  )}
+                </div>
                 <p>{summary.summary}</p>
               </div>
             )}

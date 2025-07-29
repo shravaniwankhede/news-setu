@@ -44,9 +44,9 @@ const About = ({ onPageChange }) => {
             </div>
             
             <div className="feature-card">
-              <div className="feature-icon">💾</div>
-              <h3>Save & Organize</h3>
-              <p>Save important articles and organize your reading with our bookmark system.</p>
+              <div className="feature-icon">🎤</div>
+              <h3>Text-to-Speech</h3>
+              <p>Listen to articles with our integrated text-to-speech feature for hands-free reading.</p>
             </div>
             
             <div className="feature-card">

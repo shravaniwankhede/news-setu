@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Clock, Calendar, Languages } from "lucide-react";
+import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import './styles/Landingpage.css';
@@ -52,6 +52,102 @@ const LandingPageData = [
     politicalBias: "Moderate",
     emotionalBias: "Exciting",
     saved: false
+  },
+  {
+    id: 5,
+    title: "New Electric Vehicle Battery Technology Achieves 500-Mile Range",
+    description: "Scientists have developed a revolutionary battery technology that enables electric vehicles to travel up to 500 miles on a single charge. This breakthrough addresses one of the biggest concerns about EV adoption - range anxiety. The new battery technology uses advanced lithium-ion chemistry with improved energy density and faster charging capabilities. Major automakers are already in talks to license this technology for their upcoming electric vehicle models.",
+    image: "https://i.pinimg.com/1200x/8f/2a/85/8f2a85c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Technology",
+    publishDate: "2024-01-20",
+    readTime: "8 min read",
+    politicalBias: "Low",
+    emotionalBias: "Exciting",
+    saved: false
+  },
+  {
+    id: 6,
+    title: "Major Sports League Announces Revolutionary Rule Changes",
+    description: "In a bold move to increase game excitement and viewer engagement, the league has announced sweeping rule changes that will fundamentally alter how the sport is played. The new rules include extended play periods, modified scoring systems, and enhanced player safety protocols. Fans and analysts are divided on whether these changes will improve the game or disrupt its traditional appeal. The changes will be implemented starting next season.",
+    image: "https://i.pinimg.com/1200x/7e/1b/92/7e1b92c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Sports",
+    publishDate: "2024-01-19",
+    readTime: "6 min read",
+    politicalBias: "Moderate",
+    emotionalBias: "Controversial",
+    saved: false
+  },
+  {
+    id: 7,
+    title: "Breakthrough in Quantum Computing Research",
+    description: "Researchers have achieved a significant milestone in quantum computing by successfully maintaining quantum coherence for unprecedented periods. This development brings us closer to practical quantum computers that could solve complex problems impossible for classical computers. The breakthrough involves new error correction techniques and improved qubit stability. Industry experts predict this could accelerate drug discovery, cryptography, and artificial intelligence applications.",
+    image: "https://i.pinimg.com/1200x/6d/0c/83/6d0c83c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Science",
+    publishDate: "2024-01-18",
+    readTime: "9 min read",
+    politicalBias: "Low",
+    emotionalBias: "Fascinating",
+    saved: false
+  },
+  {
+    id: 8,
+    title: "Global Food Security Initiative Launches in Developing Nations",
+    description: "A comprehensive food security program has been launched across multiple developing nations, aiming to address hunger and malnutrition through sustainable agricultural practices. The initiative combines traditional farming methods with modern technology, including drought-resistant crops and efficient irrigation systems. Local communities are being trained in sustainable farming techniques, while international organizations provide funding and technical support. Early results show promising improvements in crop yields and food availability.",
+    image: "https://i.pinimg.com/1200x/5c/fd/74/5cfd74c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "World",
+    publishDate: "2024-01-17",
+    readTime: "7 min read",
+    politicalBias: "Low",
+    emotionalBias: "Hopeful",
+    saved: false
+  },
+  {
+    id: 9,
+    title: "Revolutionary Cancer Treatment Shows Promising Results",
+    description: "A new immunotherapy treatment has demonstrated remarkable success in clinical trials, with patients showing significant improvement in various types of cancer. The treatment works by harnessing the body's own immune system to target and destroy cancer cells more effectively than traditional methods. Doctors report fewer side effects and better quality of life for patients undergoing this treatment. The FDA has granted fast-track approval for further testing.",
+    image: "https://i.pinimg.com/1200x/4b/ee/65/4bee65c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Health",
+    publishDate: "2024-01-16",
+    readTime: "8 min read",
+    politicalBias: "Low",
+    emotionalBias: "Hopeful",
+    saved: false
+  },
+  {
+    id: 10,
+    title: "Major Tech Company Announces Revolutionary AI Assistant",
+    description: "A leading technology company has unveiled its most advanced artificial intelligence assistant yet, capable of understanding context, learning user preferences, and performing complex tasks with minimal human intervention. The AI system integrates seamlessly with smart home devices, productivity tools, and entertainment platforms. Privacy advocates have raised concerns about data collection, while tech enthusiasts praise the innovation. The assistant will be available to consumers next month.",
+    image: "https://i.pinimg.com/1200x/3a/df/56/3adf56c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Technology",
+    publishDate: "2024-01-15",
+    readTime: "6 min read",
+    politicalBias: "Moderate",
+    emotionalBias: "Exciting",
+    saved: false
+  },
+  {
+    id: 11,
+    title: "Historic Peace Agreement Signed Between Rival Nations",
+    description: "After decades of conflict and tension, two neighboring nations have signed a historic peace agreement that promises to end hostilities and establish diplomatic relations. The agreement includes economic cooperation, cultural exchange programs, and joint infrastructure projects. International mediators played a crucial role in facilitating the negotiations. Citizens from both countries have expressed hope for a brighter future of cooperation and mutual understanding.",
+    image: "https://i.pinimg.com/1200x/29/d0/47/29d047c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "World",
+    publishDate: "2024-01-14",
+    readTime: "7 min read",
+    politicalBias: "Low",
+    emotionalBias: "Hopeful",
+    saved: false
+  },
+  {
+    id: 12,
+    title: "Revolutionary Renewable Energy Storage Solution",
+    description: "Engineers have developed an innovative energy storage system that could solve the intermittency problem of renewable energy sources. The new technology uses advanced materials and smart grid integration to store excess energy during peak production and release it during high demand periods. This breakthrough could accelerate the transition to clean energy by making solar and wind power more reliable and cost-effective. Utility companies worldwide are showing interest in implementing this technology.",
+    image: "https://i.pinimg.com/1200x/18/c1/38/18c138c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+    category: "Environment",
+    publishDate: "2024-01-13",
+    readTime: "8 min read",
+    politicalBias: "Low",
+    emotionalBias: "Optimistic",
+    saved: false
   }
 ];
 
@@ -76,6 +172,8 @@ const LandingPage = ({ onPageChange }) => {
   const [translating, setTranslating] = useState({});
   const [selectedLanguage, setSelectedLanguage] = useState('es');
   const [selectedArticleForSummary, setSelectedArticleForSummary] = useState(null);
+  const [ttsStates, setTtsStates] = useState({});
+  const [speechUtterance, setSpeechUtterance] = useState(null);
 
   // Fetch news on component mount and when search/category changes
   useEffect(() => {
@@ -139,6 +237,61 @@ const LandingPage = ({ onPageChange }) => {
     onPageChange('summary', article);
   };
 
+  // Text-to-Speech functions
+  const speakArticle = (article) => {
+    if (!('speechSynthesis' in window)) {
+      alert('Text-to-Speech is not supported in this browser');
+      return;
+    }
+
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+
+    const text = `${article.title}. ${article.description}`;
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Set default properties
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onstart = () => {
+      setTtsStates(prev => ({ ...prev, [article.id]: 'playing' }));
+    };
+
+    utterance.onend = () => {
+      setTtsStates(prev => ({ ...prev, [article.id]: 'stopped' }));
+    };
+
+    utterance.onpause = () => {
+      setTtsStates(prev => ({ ...prev, [article.id]: 'paused' }));
+    };
+
+    utterance.onresume = () => {
+      setTtsStates(prev => ({ ...prev, [article.id]: 'playing' }));
+    };
+
+    utterance.onerror = () => {
+      setTtsStates(prev => ({ ...prev, [article.id]: 'stopped' }));
+    };
+
+    setSpeechUtterance(utterance);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const pauseSpeech = () => {
+    window.speechSynthesis.pause();
+  };
+
+  const resumeSpeech = () => {
+    window.speechSynthesis.resume();
+  };
+
+  const stopSpeech = () => {
+    window.speechSynthesis.cancel();
+    setTtsStates({});
+  };
+
   const filteredArticles = articles.filter((a) => {
     const matchesSearch = a.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || a.category.toLowerCase() === selectedCategory;
@@ -191,6 +344,8 @@ const LandingPage = ({ onPageChange }) => {
             <option value="pt">Portuguese</option>
             <option value="ru">Russian</option>
           </select>
+
+
         </header>
 
         <main className="articles">
@@ -246,6 +401,47 @@ const LandingPage = ({ onPageChange }) => {
                   <span className={`badge ${getBiasClass(article.emotionalBias)}`}>
                     Emotional: {article.emotionalBias}
                   </span>
+                </div>
+                <div className="card-tts-controls">
+                  <button 
+                    className={`tts-card-button ${ttsStates[article.id] || 'stopped'}`}
+                    onClick={() => {
+                      const currentState = ttsStates[article.id];
+                      if (currentState === 'playing') {
+                        pauseSpeech();
+                      } else if (currentState === 'paused') {
+                        resumeSpeech();
+                      } else {
+                        speakArticle(article);
+                      }
+                    }}
+                    title="Listen to article"
+                  >
+                    <div className="tts-button-content">
+                      <div className="tts-icon">
+                        {ttsStates[article.id] === 'playing' ? (
+                          <Pause size={16} />
+                        ) : ttsStates[article.id] === 'paused' ? (
+                          <Play size={16} />
+                        ) : (
+                          <Volume2 size={16} />
+                        )}
+                      </div>
+                      <span className="tts-label">
+                        {ttsStates[article.id] === 'playing' ? 'Pause' : 
+                         ttsStates[article.id] === 'paused' ? 'Resume' : 'Listen'}
+                      </span>
+                    </div>
+                  </button>
+                  {(ttsStates[article.id] === 'playing' || ttsStates[article.id] === 'paused') && (
+                    <button 
+                      className="tts-card-stop-button"
+                      onClick={stopSpeech}
+                      title="Stop listening"
+                    >
+                      <VolumeX size={16} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

@@ -1,0 +1,332 @@
+/* TextToSpeech.css */
+.tts-container {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.tts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tts-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tts-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.windows-indicator {
+  background: linear-gradient(135deg, #0078d4, #106ebe);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0, 120, 212, 0.3);
+}
+
+.tts-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tts-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+}
+
+.tts-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.tts-btn:active {
+  transform: translateY(0);
+}
+
+.play-btn {
+  background: #4CAF50;
+}
+
+.play-btn:hover {
+  background: #45a049;
+}
+
+.pause-btn {
+  background: #FF9800;
+}
+
+.pause-btn:hover {
+  background: #f57c00;
+}
+
+.stop-btn {
+  background: #f44336;
+}
+
+.stop-btn:hover {
+  background: #d32f2f;
+}
+
+.reset-btn {
+  background: #9E9E9E;
+}
+
+.reset-btn:hover {
+  background: #757575;
+}
+
+.tts-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setting-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.setting-group select,
+.setting-group input[type="range"] {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.setting-group select:focus,
+.setting-group input[type="range"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.setting-group span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.tts-text {
+  margin-bottom: 15px;
+}
+
+.tts-text label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.tts-text textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.tts-text textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.tts-text textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.tts-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status.playing {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status.paused {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.status.stopped {
+  background: rgba(158, 158, 158, 0.1);
+  color: #9E9E9E;
+  border: 1px solid rgba(158, 158, 158, 0.3);
+}
+
+.tts-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tts-container {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .tts-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .tts-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tts-settings {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .setting-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .setting-group label {
+    min-width: 60px;
+    font-size: 0.8rem;
+  }
+
+  .setting-group select,
+  .setting-group input[type="range"] {
+    flex: 1;
+  }
+
+  .setting-group span {
+    min-width: 40px;
+    text-align: right;
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .tts-container {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .tts-settings {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .setting-group select,
+[data-theme="dark"] .setting-group input[type="range"],
+[data-theme="dark"] .tts-text textarea {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Custom range slider styling */
+.setting-group input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+}
+
+.setting-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.setting-group input[type="range"]::-webkit-slider-thumb:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+}
+
+.setting-group input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.setting-group input[type="range"]::-moz-range-thumb:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+} 

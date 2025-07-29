@@ -35,6 +35,54 @@ const Saved = ({ onPageChange }) => {
           politicalBias: "High",
           emotionalBias: "Optimistic", 
           saved: true
+        },
+        {
+          id: 5,
+          title: "New Electric Vehicle Battery Technology Achieves 500-Mile Range",
+          description: "Scientists have developed a revolutionary battery technology that enables electric vehicles to travel up to 500 miles on a single charge. This breakthrough addresses one of the biggest concerns about EV adoption - range anxiety. The new battery technology uses advanced lithium-ion chemistry with improved energy density and faster charging capabilities. Major automakers are already in talks to license this technology for their upcoming electric vehicle models.",
+          image: "https://i.pinimg.com/1200x/8f/2a/85/8f2a85c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+          category: "Technology",
+          publishDate: "2024-01-20",
+          readTime: "8 min read",
+          politicalBias: "Low",
+          emotionalBias: "Exciting",
+          saved: true
+        },
+        {
+          id: 7,
+          title: "Breakthrough in Quantum Computing Research",
+          description: "Researchers have achieved a significant milestone in quantum computing by successfully maintaining quantum coherence for unprecedented periods. This development brings us closer to practical quantum computers that could solve complex problems impossible for classical computers. The breakthrough involves new error correction techniques and improved qubit stability. Industry experts predict this could accelerate drug discovery, cryptography, and artificial intelligence applications.",
+          image: "https://i.pinimg.com/1200x/6d/0c/83/6d0c83c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+          category: "Science",
+          publishDate: "2024-01-18",
+          readTime: "9 min read",
+          politicalBias: "Low",
+          emotionalBias: "Fascinating",
+          saved: true
+        },
+        {
+          id: 9,
+          title: "Revolutionary Cancer Treatment Shows Promising Results",
+          description: "A new immunotherapy treatment has demonstrated remarkable success in clinical trials, with patients showing significant improvement in various types of cancer. The treatment works by harnessing the body's own immune system to target and destroy cancer cells more effectively than traditional methods. Doctors report fewer side effects and better quality of life for patients undergoing this treatment. The FDA has granted fast-track approval for further testing.",
+          image: "https://i.pinimg.com/1200x/4b/ee/65/4bee65c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+          category: "Health",
+          publishDate: "2024-01-16",
+          readTime: "8 min read",
+          politicalBias: "Low",
+          emotionalBias: "Hopeful",
+          saved: true
+        },
+        {
+          id: 11,
+          title: "Historic Peace Agreement Signed Between Rival Nations",
+          description: "After decades of conflict and tension, two neighboring nations have signed a historic peace agreement that promises to end hostilities and establish diplomatic relations. The agreement includes economic cooperation, cultural exchange programs, and joint infrastructure projects. International mediators played a crucial role in facilitating the negotiations. Citizens from both countries have expressed hope for a brighter future of cooperation and mutual understanding.",
+          image: "https://i.pinimg.com/1200x/29/d0/47/29d047c1c4c4c4c4c4c4c4c4c4c4c4c4.jpg",
+          category: "World",
+          publishDate: "2024-01-14",
+          readTime: "7 min read",
+          politicalBias: "Low",
+          emotionalBias: "Hopeful",
+          saved: true
         }
       ]);
     } finally {
