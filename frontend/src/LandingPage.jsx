@@ -206,14 +206,20 @@ const LandingPage = ({ onPageChange }) => {
     try {
       setTranslating(prev => ({ ...prev, [article.id]: true }));
       
-      const textToTranslate = `${article.title}. ${article.description}`;
-      const response = await apiService.translateText(textToTranslate, selectedLanguage);
+      // Translate title and description separately for better accuracy
+      const titleResponse = await apiService.translateText(article.title, selectedLanguage);
+      const descriptionResponse = await apiService.translateText(article.description, selectedLanguage);
+      
+      // Validate responses
+      if (!titleResponse.translatedText || !descriptionResponse.translatedText) {
+        throw new Error('Invalid translation response');
+      }
       
       setTranslations(prev => ({
         ...prev,
         [article.id]: {
-          title: response.translatedText.split('. ')[0] + '.',
-          description: response.translatedText.split('. ').slice(1).join('. '),
+          title: titleResponse.translatedText,
+          description: descriptionResponse.translatedText,
           language: selectedLanguage
         }
       }));
