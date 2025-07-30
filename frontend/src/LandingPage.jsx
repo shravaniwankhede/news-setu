@@ -200,8 +200,6 @@ const LandingPage = ({ onPageChange }) => {
     }
   };
 
-
-
   const translateArticle = async (article) => {
     try {
       setTranslating(prev => ({ ...prev, [article.id]: true }));

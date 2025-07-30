@@ -6,7 +6,7 @@ import '../styles/Navbar.css';
 const Navbar = ({ onPageChange, currentPage }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
   const { theme } = useTheme();
   const languageDropdownRef = useRef(null);
 
@@ -48,10 +48,10 @@ const Navbar = ({ onPageChange, currentPage }) => {
   };
 
   const handleLanguageSelect = (language) => {
-    setSelectedLanguage(language.name);
+    setSelectedLanguage(language.code);
     setLanguageDropdownOpen(false);
     // Here you can add logic to change the app language
-    console.log('Language changed to:', language.name);
+    console.log('Language changed to:', language.code);
   };
 
   const handleAnalyticsClick = () => {
@@ -60,6 +60,11 @@ const Navbar = ({ onPageChange, currentPage }) => {
 
   const handleHomeClick = () => {
     onPageChange('landing');
+  };
+
+  const getCurrentLanguageName = () => {
+    const currentLang = languages.find(lang => lang.code === selectedLanguage);
+    return currentLang ? currentLang.name : 'English';
   };
 
   return (
@@ -80,13 +85,18 @@ const Navbar = ({ onPageChange, currentPage }) => {
             ⚖︎ Analytics
           </button>
           <div className="language-dropdown-container" ref={languageDropdownRef}>
-            
+            <button 
+              className="language-btn"
+              onClick={toggleLanguageDropdown}
+            >
+              🌐 {getCurrentLanguageName()}
+            </button>
             {languageDropdownOpen && (
               <div className="language-dropdown">
                 {languages.map((language) => (
                   <div
                     key={language.code}
-                    className={`language-option ${selectedLanguage === language.name ? 'active' : ''}`}
+                    className={`language-option ${selectedLanguage === language.code ? 'active' : ''}`}
                     onClick={() => handleLanguageSelect(language)}
                   >
                     <span className="language-flag">{language.flag}</span>
