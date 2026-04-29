@@ -27,18 +27,6 @@ In a world flooded with fragmented information, Newsetu brings clarity to digita
 
 ---
 
-## 👥 Team Contributions
-
-We are a dedicated team working to redefine news transparency:
-
-| Name | Role | Core Responsibilities |
-| :--- | :--- | :--- |
-| **Siddhi Bhosale** | **Lead & Backend** | Project architecture, API integration (NewsAPI), and AI engine logic. |
-| **Shrawani Wankhede** | **Frontend** | UI/UX development, responsive design, and repository management. |
-| **Riddhi Dakare** | **Presenter & Frontend** | Project presentation, client-side features, and user testing. |
-| **Soniya Pangatte** | **Research & Frontend** | Market & bias research, content strategy, and UI implementation. |
-
----
 
 ## 🤝 For Journalists
 We provide journalists with **reach, insights, and credibility.** In an era where trust is currency, Newsetu helps creators build a reputation for transparency while reaching a global, multilingual audience.
