@@ -353,9 +353,10 @@ const LandingPage = ({ onPageChange }) => {
         </header>
 
         <main className="articles">
-          {loading && <p>Loading articles...</p>}
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          {!loading && !error && filteredArticles.map((article) => (
+          {loading && <p className="loading-text">Loading articles...</p>}
+          {error && <p className="error-message" style={{ color: '#ff4d4d', backgroundColor: 'rgba(255, 77, 77, 0.1)', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>{error}</p>}
+          {!loading && filteredArticles.length > 0 ? (
+            filteredArticles.map((article) => (
             <div className="card" key={article.id}>
               <div className="image-container">
                 <img src={article.image} alt={article.title} className="image" />
@@ -448,8 +449,10 @@ const LandingPage = ({ onPageChange }) => {
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            !loading && <p className="no-news-text">No news articles found. Try adjusting your search or category.</p>
+          )}
         </main>
         <footer className="footer">
          <p>NewsSetu - Your gateway to unbiased news </p>
