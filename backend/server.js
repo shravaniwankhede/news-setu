@@ -9,7 +9,18 @@ const analysisRoutes = require('./routes/analysis');
 dotenv.config();
 const app = express();
 
-app.use(cors());
+// Health check endpoint (at top to ensure reachable)
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'NewsSetu API is running' });
+});
+
+// Explicit CORS configuration
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Connect to MongoDB
@@ -17,11 +28,6 @@ connectDB();
 
 app.use('/api/articles', articleRoutes);
 app.use('/api/analysis', analysisRoutes);
-
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: 'NewsSetu API is running' });
-});
 
 // General error handling middleware
 app.use((err, req, res, next) => {

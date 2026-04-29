@@ -1,9 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5000/api');
+// Sanitize the API Base URL to handle trailing slashes and whitespace
+const rawApiUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5000/api');
+const API_BASE_URL = rawApiUrl.trim().replace(/\/+$/, '');
+
+console.log(`[API Service] Using Base URL: ${API_BASE_URL}`);
 
 class ApiService {
   // Generic request method
   async request(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
+    // Ensure endpoint starts with a slash
+    const sanitizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const url = `${API_BASE_URL}${sanitizedEndpoint}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
