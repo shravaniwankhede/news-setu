@@ -29,12 +29,28 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Serve frontend static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Serve frontend static files
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+const localDistPath = path.join(__dirname, 'dist');
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND) {
+  const distPath = require('fs').existsSync(frontendDistPath) ? frontendDistPath : localDistPath;
+  
+  if (require('fs').existsSync(distPath)) {
+    console.log(`Serving static files from: ${distPath}`);
+    app.use(express.static(distPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
+    console.warn(`Warning: Frontend dist directory not found at ${frontendDistPath} or ${localDistPath}`);
+    app.get('/', (req, res) => {
+      res.json({ status: 'OK', message: 'Backend is running, but frontend assets are missing. Did you run "npm run build"?' });
+    });
+  }
+} else {
+  app.get('/', (req, res) => {
+    res.json({ status: 'OK', message: 'NewsSetu API is running in development mode' });
   });
 }
 
