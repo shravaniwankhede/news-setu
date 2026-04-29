@@ -218,8 +218,10 @@ exports.fetchNews = async (req, res) => {
 
     const response = await axios.get('https://newsapi.org/v2/top-headlines', { params });
     
+    const newsArticles = response.data.articles || [];
+    
     // Transform the response and analyze bias for each article
-    const articles = response.data.articles.map((article, index) => {
+    const articles = newsArticles.map((article, index) => {
       const biasAnalysis = analyzeBias(article.title, article.description);
       return {
         id: index + 1,

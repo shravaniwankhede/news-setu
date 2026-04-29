@@ -24,9 +24,7 @@ const App = () => {
       {currentPage === 'landing' && <LandingPage onPageChange={handlePageChange} />}
       {currentPage === 'analytics' && <Analytics onPageChange={handlePageChange} />}
       {currentPage === 'summary' && <Summary onPageChange={handlePageChange} selectedArticle={selectedArticle} />}
-      {currentPage === 'saved' && <Saved onPageChange={handlePageChange} />}
       {currentPage === 'about' && <About onPageChange={handlePageChange} />}
-      {currentPage === 'tts-test' && <TTSTestPage onPageChange={handlePageChange} />}
     </ThemeProvider>
   )
 }

@@ -448,6 +448,7 @@ const LandingPage = ({ onPageChange }) => {
                     </button>
                   )}
                 </div>
+                </div>
               </div>
             ))
           ) : (

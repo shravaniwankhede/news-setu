@@ -113,10 +113,13 @@
   color: #f9700f;
 }
 .red {
-  color: #17a2b8;
+  color: #d63545;
 }
 .green {
   color: #28a745;
+}
+.blue {
+  color: #007bff;
 }
 
 .bias-distribution {
@@ -171,8 +174,8 @@
   border-radius: 6px;
 }
 
-.blue {
-  background-color: #28a745;
+.blue-fill {
+  background-color: #007bff;
 }
 .orange-fill {
   background-color: #f8b643;

@@ -378,6 +378,10 @@ exports.getBulkAnalysis = async (req, res) => {
   const { articles } = req.body;
   
   try {
+    if (!articles || !Array.isArray(articles)) {
+      return res.status(400).json({ error: 'Articles array is required' });
+    }
+    
     // For now, return sample bulk analysis since we don't have API keys
     const bulkAnalysis = articles.map((article, index) => ({
       id: article.id,
