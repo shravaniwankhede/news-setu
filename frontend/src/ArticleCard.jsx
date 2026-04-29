@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
+import api from './services/api';
+
 const ArticleCard = ({ article }) => {
   const handleSave = async () => {
     try {
-      await axios.post('http://localhost:5000/api/articles/save', article);
+      await api.saveArticle(article);
       alert("Article saved!");
     } catch (error) {
       console.error("Error saving article:", error);
