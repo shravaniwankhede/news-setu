@@ -1,6 +1,6 @@
-// Sanitize the API Base URL to handle trailing slashes and whitespace
-const rawApiUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5000/api');
-const API_BASE_URL = rawApiUrl.trim().replace(/\/+$/, '');
+// Determine API Base URL based on environment
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isLocalhost ? 'http://localhost:5000/api' : '/api';
 
 console.log(`[API Service] Using Base URL: ${API_BASE_URL}`);
 
