@@ -9,11 +9,6 @@ const analysisRoutes = require('./routes/analysis');
 dotenv.config();
 const app = express();
 
-// Health check endpoint (at top to ensure reachable)
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: 'NewsSetu API is running' });
-});
-
 // Explicit CORS configuration
 app.use(cors({
   origin: '*',
@@ -26,8 +21,25 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-app.use('/api/articles', articleRoutes);
-app.use('/api/analysis', analysisRoutes);
+// API Routes
+const apiRouter = express.Router();
+
+// Health check and root status
+apiRouter.get('/', (req, res) => {
+  res.json({ status: 'OK', message: 'NewsSetu API is running. Use /api/articles/news to fetch news.' });
+});
+
+apiRouter.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'NewsSetu API is running' });
+});
+
+apiRouter.use('/articles', articleRoutes);
+apiRouter.use('/analysis', analysisRoutes);
+
+// Mount API router at both /api and /
+// This handles cases where Vercel might strip the /api prefix
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // General error handling middleware
 app.use((err, req, res, next) => {

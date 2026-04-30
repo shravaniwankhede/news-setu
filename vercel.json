@@ -10,7 +10,7 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api|health).*)",
+      "source": "/((?!api|health|assets|favicon.ico|logo.png).*)",
       "destination": "/index.html"
     }
   ]

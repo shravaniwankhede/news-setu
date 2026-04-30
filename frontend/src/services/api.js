@@ -1,6 +1,11 @@
 // Determine API Base URL based on environment
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocalhost ? 'http://localhost:5000/api' : '/api';
+// In production (Vercel), we use relative path '/api'
+// In development, we use the local backend URL
+const API_BASE_URL = import.meta.env.PROD 
+  ? '/api' 
+  : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:5000/api' 
+      : '/api');
 
 console.log(`[API Service] Using Base URL: ${API_BASE_URL}`);
 
