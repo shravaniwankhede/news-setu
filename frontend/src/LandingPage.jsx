@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause } from "lucide-react";
+import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2 } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import './styles/Landingpage.css';
@@ -296,6 +296,29 @@ const LandingPage = ({ onPageChange }) => {
     setTtsStates({});
   };
 
+  const [shareStates, setShareStates] = useState({});
+
+  const shareArticle = async (article) => {
+    const biasText = `Political Bias: ${article.politicalBias} | Emotional Bias: ${article.emotionalBias}`;
+    const shareData = {
+      title: article.title,
+      text: `${article.title}\n\n${biasText}\n\nVia NewsSetu — unbiased news analysis`,
+      url: article.url || window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.title}\n\n${shareData.text}\n${shareData.url}`);
+        setShareStates(prev => ({ ...prev, [article.id]: 'copied' }));
+        setTimeout(() => setShareStates(prev => ({ ...prev, [article.id]: null })), 2000);
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error('Share failed:', err);
+    }
+  };
+
   const filteredArticles = articles.filter((a) => {
     const matchesSearch = a.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || a.category.toLowerCase() === selectedCategory;
@@ -407,6 +430,16 @@ const LandingPage = ({ onPageChange }) => {
                   </span>
                 </div>
                 <div className="card-tts-controls">
+                  <button
+                    className="share-card-button"
+                    onClick={() => shareArticle(article)}
+                    title="Share article"
+                  >
+                    <Share2 size={14} />
+                    <span className="tts-label">
+                      {shareStates[article.id] === 'copied' ? 'Copied!' : 'Share'}
+                    </span>
+                  </button>
                   <button 
                     className={`tts-card-button ${ttsStates[article.id] || 'stopped'}`}
                     onClick={() => {
