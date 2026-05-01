@@ -64,7 +64,6 @@
 }
 
 .navbar .analytics-btn,
-.navbar .language-btn,
 .navbar .theme-toggle {
   padding: 6px 10px !important;
   font-size: 14px !important;
@@ -85,62 +84,9 @@
 }
 
 .navbar .analytics-btn:hover,
-.navbar .language-btn:hover,
 .navbar .theme-toggle:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
   border-color: currentColor !important;
-}
-
-/* Language Dropdown Styles */
-.navbar .language-dropdown-container {
-  position: relative;
-}
-
-.navbar .language-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: var(--nav-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: var(--shadow-hover);
-  z-index: 1001;
-  min-width: 200px;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 5px;
-}
-
-.navbar .language-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.navbar .language-option:last-child {
-  border-bottom: none;
-}
-
-.navbar .language-option:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.navbar .language-option.active {
-  background-color: rgba(255, 255, 255, 0.2);
-  font-weight: bold;
-}
-
-.navbar .language-flag {
-  font-size: 16px;
-}
-
-.navbar .language-name {
-  font-size: 14px;
-  color: var(--nav-text);
 }
 
 .navbar .hamburger {
@@ -221,11 +167,5 @@
     padding: 10px;
     font-size: 16px;
     width: 100%;
-  }
-
-  .navbar .language-dropdown {
-    right: auto;
-    left: 0;
-    min-width: 180px;
   }
 }
