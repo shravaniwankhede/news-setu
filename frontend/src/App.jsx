@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import Navbar from './components/Navbar.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import LandingPage from './LandingPage.jsx'
 import Analytics from './Analytics.jsx'
 import Summary from './Summary.jsx'
@@ -21,10 +22,12 @@ const App = () => {
   return (
     <ThemeProvider>
       <Navbar onPageChange={handlePageChange} currentPage={currentPage} />
-      {currentPage === 'landing' && <LandingPage onPageChange={handlePageChange} />}
-      {currentPage === 'analytics' && <Analytics onPageChange={handlePageChange} />}
-      {currentPage === 'summary' && <Summary onPageChange={handlePageChange} selectedArticle={selectedArticle} />}
-      {currentPage === 'about' && <About onPageChange={handlePageChange} />}
+      <ErrorBoundary>
+        {currentPage === 'landing' && <LandingPage onPageChange={handlePageChange} />}
+        {currentPage === 'analytics' && <Analytics onPageChange={handlePageChange} />}
+        {currentPage === 'summary' && <Summary onPageChange={handlePageChange} selectedArticle={selectedArticle} />}
+        {currentPage === 'about' && <About onPageChange={handlePageChange} />}
+      </ErrorBoundary>
     </ThemeProvider>
   )
 }
