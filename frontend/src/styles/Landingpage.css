@@ -71,7 +71,7 @@ select {
   flex-wrap: wrap;
   border: 1px solid var(--border-color);
   background-color: var(--card-bg);
-  border-radius: 6px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
@@ -79,13 +79,18 @@ select {
   position: relative;
 }
 
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
 .image-container {
   position: relative;
-  width: 100%;
-  max-width: 250px;
-  height: 300px;
+  width: 260px;
+  min-height: 220px;
   overflow: hidden;
   flex-shrink: 0;
+  background: #e0e0e0;
 }
 
 .image {
@@ -215,11 +220,74 @@ select {
 
 .card-tts-controls {
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  bottom: 14px;
+  right: 14px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100% - 28px);
+}
+
+.share-card-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  height: 36px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.share-card-button:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.save-news-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  height: 36px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.save-news-btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.save-news-btn.saved {
+  background: #f59e0b;
+  box-shadow: 0 2px 4px rgba(245,158,11,0.3);
+}
+
+.save-news-btn.saved:hover {
+  background: #d97706;
+  box-shadow: 0 3px 6px rgba(245,158,11,0.4);
 }
 
 .tts-card-button {
@@ -362,9 +430,13 @@ select {
 }
 
 .content {
-  padding: 15px;
+  padding: 20px;
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 60px;
 }
 
 .meta {
@@ -389,7 +461,11 @@ select {
 .description {
   font-size: 14px;
   color: var(--text-secondary);
-  margin-bottom: 10px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .bias {
@@ -534,7 +610,7 @@ select {
 
   .image-container {
     width: 100%;
-    max-width: none;
+    min-height: 200px;
     height: 200px;
   }
 
