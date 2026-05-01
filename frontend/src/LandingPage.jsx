@@ -2,7 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
+import LanguageFilter, { LANGUAGES } from "./components/LanguageFilter.jsx";
 import './styles/Landingpage.css';
+
+// Languages that use Indic scripts — get an orange badge variant
+const INDIAN_LANG_CODES = new Set(['hi', 'ta', 'bn', 'mr', 'te', 'kn', 'ml', 'pa', 'ur']);
+
+/** Return the short display label for a language code (e.g. 'hi' → 'HI · Hindi') */
+const getLangLabel = (code) => {
+  if (!code) return null;
+  const found = LANGUAGES.find((l) => l.code === code);
+  return found ? `${found.flag} ${code.toUpperCase()}` : code.toUpperCase();
+};
 
 const LandingPageData = [
   {
@@ -165,6 +176,10 @@ const LandingPage = ({ onPageChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBias, setSelectedBias] = useState("all");
+  // Language filter: persisted in localStorage via LanguageFilter component
+  const [selectedFilterLanguage, setSelectedFilterLanguage] = useState(
+    () => localStorage.getItem('newssetu_language_filter') || 'all'
+  );
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -175,15 +190,20 @@ const LandingPage = ({ onPageChange }) => {
   const [ttsStates, setTtsStates] = useState({});
   const [speechUtterance, setSpeechUtterance] = useState(null);
 
-  // Fetch news on component mount and when search/category changes
+  // Fetch news on component mount and when search/category/language changes
   useEffect(() => {
     fetchNews();
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, selectedFilterLanguage]);
 
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const response = await apiService.fetchNews(searchQuery, selectedCategory);
+      // Pass selectedFilterLanguage as 3rd arg; 'all' means no language filter
+      const response = await apiService.fetchNews(
+        searchQuery,
+        selectedCategory,
+        selectedFilterLanguage !== 'all' ? selectedFilterLanguage : ''
+      );
       // Map urlToImage to image for consistency
       const mappedArticles = (response.articles || []).map(article => ({
         ...article,
@@ -335,6 +355,13 @@ const LandingPage = ({ onPageChange }) => {
             <option value="high">High</option>
           </select>
 
+          {/* Task #3 & #4 — Language filter dropdown */}
+          <span className="dropdown-label">Language: </span>
+          <LanguageFilter
+            value={selectedFilterLanguage}
+            onChange={setSelectedFilterLanguage}
+          />
+
           <span className="dropdown-label">Translate to: </span>
           <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
             <option value="es">Spanish</option>
@@ -373,7 +400,16 @@ const LandingPage = ({ onPageChange }) => {
                 <div className="meta">
                   <span className="category">{article.category}</span>
                   <span><Clock size={10} /> {article.readTime}</span>
-                  <span><Calendar size={10} /> {article.publishDate}</span>
+                  <span><Calendar size={10} /> {article.publishDate || article.publishedAt?.slice(0, 10)}</span>
+                  {/* Task #5 — Language badge */}
+                  {article.language && (
+                    <span
+                      className={`lang-badge${INDIAN_LANG_CODES.has(article.language) ? ' lang-indian' : ''}`}
+                      title={`Article language: ${article.language}`}
+                    >
+                      {getLangLabel(article.language)}
+                    </span>
+                  )}
                 </div>
                 <h3 className="title">
                   {translations[article.id] ? translations[article.id].title : article.title}

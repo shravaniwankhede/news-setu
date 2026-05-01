@@ -1,6 +1,26 @@
 const Article = require('../models/Article');
 const mongoose = require('mongoose');
 const axios = require('axios');
+const { franc } = require('franc-min');
+
+// Map franc 3-letter ISO 639-3 codes → 2-letter ISO 639-1 codes used by NewsAPI / UI
+const FRANC_TO_ISO2 = {
+  eng: 'en', hin: 'hi', tam: 'ta', ben: 'bn', mar: 'mr',
+  tel: 'te', kan: 'kn', mal: 'ml', pan: 'pa', urd: 'ur',
+  spa: 'es', fra: 'fr', deu: 'de', zho: 'zh', ara: 'ar',
+  jpn: 'ja', kor: 'ko', por: 'pt', rus: 'ru', ita: 'it',
+  nld: 'nl', pol: 'pl', swe: 'sv', nor: 'no', dan: 'da',
+};
+
+/**
+ * Detect the language of a piece of text.
+ * Returns a 2-letter ISO 639-1 code, or 'en' as fallback.
+ */
+const detectLanguage = (text) => {
+  if (!text || text.trim().length < 10) return 'en';
+  const iso3 = franc(text, { minLength: 10 });
+  return FRANC_TO_ISO2[iso3] || 'en';
+};
 
 // Helper function to check if MongoDB is connected
 const isMongoConnected = () => {
@@ -94,7 +114,7 @@ exports.fetchNews = async (req, res) => {
   try {
     // Check if we have API key
     if (!process.env.NEWSAPI_KEY) {
-      // Return sample data if no API key
+      // Return sample data (mix of languages for demo) if no API key
       const allSampleArticles = [
         {
           id: 1,
@@ -105,17 +125,19 @@ exports.fetchNews = async (req, res) => {
           publishedAt: "2024-01-24",
           politicalBias: "Moderate",
           emotionalBias: "Positive",
+          language: 'en',
           saved: false
         },
         {
           id: 2,
-          title: "Global Climate Summit Reaches Historic Agreement",
-          description: "In a landmark moment for global environmental policy, world leaders have come together at the Climate Summit to sign a historic agreement aimed at drastically reducing carbon emissions.",
+          title: "वैश्विक जलवायु शिखर सम्मेलन में ऐतिहासिक समझौता हुआ",
+          description: "विश्व के नेताओं ने जलवायु परिवर्तन से निपटने के लिए एक ऐतिहासिक समझौते पर हस्ताक्षर किए हैं जिससे कार्बन उत्सर्जन में भारी कमी आएगी।",
           urlToImage: "https://i.pinimg.com/736x/5b/a4/66/5ba46665fc9bdb09ff6546654cc75e4d.jpg",
           category: "Environment",
           publishedAt: "2024-01-23",
           politicalBias: "Low",
           emotionalBias: "Hopeful",
+          language: 'hi',
           saved: false
         },
         {
@@ -127,28 +149,31 @@ exports.fetchNews = async (req, res) => {
           publishedAt: "2024-01-22",
           politicalBias: "High",
           emotionalBias: "Optimistic",
+          language: 'en',
           saved: false
         },
         {
           id: 4,
-          title: "Breakthrough in Space Exploration Technology",
-          description: "A major advancement in space exploration technology is set to revolutionize future missions, with new innovations enhancing spacecraft efficiency and deep-space communication.",
+          title: "புதிய விண்வெளி ஆராய்ச்சி தொழில்நுட்பம் புரட்சி ஏற்படுத்துகிறது",
+          description: "விண்வெளி ஆராய்ச்சியில் புதிய கண்டுபிடிப்புகள் மனித இனத்தின் எதிர்காலத்தை மாற்றும் என்று விஞ்ஞானிகள் தெரிவித்தனர்.",
           urlToImage: "https://i.pinimg.com/1200x/de/35/3c/de353c9f646c31592a03faf7ef15065c.jpg",
           category: "Science",
           publishedAt: "2024-01-21",
           politicalBias: "Moderate",
           emotionalBias: "Exciting",
+          language: 'ta',
           saved: false
         },
         {
           id: 5,
-          title: "New Political Reforms Announced by Government",
-          description: "The government has announced comprehensive political reforms aimed at increasing transparency and public participation in the democratic process.",
+          title: "সরকার নতুন রাজনৈতিক সংস্কার ঘোষণা করেছে",
+          description: "সরকার স্বচ্ছতা বৃদ্ধি এবং গণতান্ত্রিক প্রক্রিয়ায় জনগণের অংশগ্রহণ বাড়াতে ব্যাপক রাজনৈতিক সংস্কারের ঘোষণা দিয়েছে।",
           urlToImage: "https://i.pinimg.com/1200x/9a/14/b8/9a14b84bb2cc2f5405f4c3676a77aec6.jpg",
           category: "Politics",
           publishedAt: "2024-01-20",
           politicalBias: "High",
           emotionalBias: "Neutral",
+          language: 'bn',
           saved: false
         },
         {
@@ -160,6 +185,31 @@ exports.fetchNews = async (req, res) => {
           publishedAt: "2024-01-19",
           politicalBias: "Low",
           emotionalBias: "Positive",
+          language: 'en',
+          saved: false
+        },
+        {
+          id: 7,
+          title: "मराठी उद्योग क्षेत्रात मोठी प्रगती",
+          description: "महाराष्ट्रातील उद्योग क्षेत्रात नव्या तंत्रज्ञानाचा वापर करून मोठ्या प्रमाणावर रोजगार निर्मिती होत आहे.",
+          urlToImage: "https://i.pinimg.com/1200x/38/d4/d7/38d4d70886c8a2dd73f3e5f1497c8f73.jpg",
+          category: "Business",
+          publishedAt: "2024-01-18",
+          politicalBias: "Low",
+          emotionalBias: "Positive",
+          language: 'mr',
+          saved: false
+        },
+        {
+          id: 8,
+          title: "తెలుగు రాష్ట్రంలో కొత్త సాంకేతిక విద్యా కేంద్రాలు",
+          description: "ఆంధ్రప్రదేశ్ మరియు తెలంగాణలో కొత్త సాంకేతిక విద్యా కేంద్రాలు ప్రారంభమవుతున్నాయి, ఇవి యువతకు ఉద్యోగావకాశాలు కల్పిస్తాయి.",
+          urlToImage: "https://i.pinimg.com/1200x/de/35/3c/de353c9f646c31592a03faf7ef15065c.jpg",
+          category: "Technology",
+          publishedAt: "2024-01-17",
+          politicalBias: "Low",
+          emotionalBias: "Hopeful",
+          language: 'te',
           saved: false
         }
       ];
@@ -180,7 +230,14 @@ exports.fetchNews = async (req, res) => {
         );
       }
 
-      // Analyze bias for each article (simulated AI analysis)
+      // Filter by language if provided (and not 'all')
+      if (language && language !== 'all') {
+        filteredArticles = filteredArticles.filter(article =>
+          article.language === language
+        );
+      }
+
+      // Analyze bias for each article
       const analyzedArticles = filteredArticles.map(article => {
         const biasAnalysis = analyzeBias(article.title, article.description);
         return {
@@ -201,12 +258,21 @@ exports.fetchNews = async (req, res) => {
     }
 
     // If we have API key, use real NewsAPI
+    // NewsAPI supports a limited set of language codes; pass through if valid
+    const newsApiLanguages = ['ar','de','en','es','fr','he','it','nl','no','pt','ru','sv','ud','zh'];
     const params = {
       apiKey: process.env.NEWSAPI_KEY,
-      country: 'us',
-      language: language || 'en',
       pageSize: pageSize
     };
+
+    // Only pass language to NewsAPI if it's a supported code, else fetch all and filter
+    if (language && language !== 'all' && newsApiLanguages.includes(language)) {
+      params.language = language;
+    } else if (!language || language === 'all') {
+      params.language = 'en';
+    }
+    // For Indian languages (hi, ta, bn, mr, te, kn, ml) — don't filter at API level,
+    // detect language locally and filter after fetch
 
     if (category && category !== 'all') {
       params.category = category;
@@ -220,16 +286,20 @@ exports.fetchNews = async (req, res) => {
     
     const newsArticles = response.data.articles || [];
     
-    // Transform the response and analyze bias for each article
-    const articles = newsArticles.map((article, index) => {
+    // Transform + detect language for each article
+    let articles = newsArticles.map((article, index) => {
       const biasAnalysis = analyzeBias(article.title, article.description);
+      const detectedLang = detectLanguage(`${article.title || ''} ${article.description || ''}`);
       return {
         id: index + 1,
         title: article.title,
         description: article.description,
         urlToImage: article.urlToImage,
+        url: article.url,
+        source: article.source?.name || '',
         category: category || 'General',
         publishedAt: article.publishedAt,
+        language: detectedLang,
         politicalBias: biasAnalysis.politicalBias,
         emotionalBias: biasAnalysis.emotionalBias,
         politicalBiasScore: biasAnalysis.politicalBiasScore,
@@ -238,9 +308,14 @@ exports.fetchNews = async (req, res) => {
       };
     });
 
+    // Post-fetch language filter for languages not natively supported by NewsAPI
+    if (language && language !== 'all') {
+      articles = articles.filter(a => a.language === language);
+    }
+
     res.json({
       articles: articles,
-      totalResults: response.data.totalResults,
+      totalResults: articles.length,
       status: response.data.status
     });
   } catch (error) {
