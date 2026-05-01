@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2 } from "lucide-react";
+import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2, Bookmark, BookmarkCheck } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import './styles/Landingpage.css';
@@ -296,6 +296,24 @@ const LandingPage = ({ onPageChange }) => {
     setTtsStates({});
   };
 
+  const [savedIds, setSavedIds] = useState(() => {
+    const stored = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+    return new Set(stored.map(a => a.id));
+  });
+
+  const toggleSave = (article) => {
+    const stored = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+    const alreadySaved = savedIds.has(article.id);
+    let updated;
+    if (alreadySaved) {
+      updated = stored.filter(a => a.id !== article.id);
+    } else {
+      updated = [...stored, article];
+    }
+    localStorage.setItem('savedArticles', JSON.stringify(updated));
+    setSavedIds(new Set(updated.map(a => a.id)));
+  };
+
   const [shareStates, setShareStates] = useState({});
 
   const shareArticle = async (article) => {
@@ -381,7 +399,12 @@ const LandingPage = ({ onPageChange }) => {
           {!loading && !error && filteredArticles.map((article) => (
             <div className="card" key={article.id}>
               <div className="image-container">
-                <img src={article.image} alt={article.title} className="image" />
+                <img
+                  src={article.image || 'https://placehold.co/250x300?text=No+Image'}
+                  alt={article.title}
+                  className="image"
+                  onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/250x300?text=No+Image'; }}
+                />
                 <button className="summarize" onClick={() => handleSummaryClick(article)}>✓ Summarize</button>
                 <button 
                   className="translate-button" 
@@ -393,9 +416,9 @@ const LandingPage = ({ onPageChange }) => {
               </div>
               <div className="content">
                 <div className="meta">
-                  <span className="category">{article.category}</span>
-                  <span><Clock size={10} /> {article.readTime}</span>
-                  <span><Calendar size={10} /> {article.publishDate}</span>
+                  <span className="category">{article.category !== 'all' ? article.category : 'General'}</span>
+                  {article.readTime && <span><Clock size={10} /> {article.readTime}</span>}
+                  <span><Calendar size={10} /> {article.publishDate || (article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : '')}</span>
                 </div>
                 <h3 className="title">
                   {translations[article.id] ? translations[article.id].title : article.title}
@@ -430,6 +453,14 @@ const LandingPage = ({ onPageChange }) => {
                   </span>
                 </div>
                 <div className="card-tts-controls">
+                  <button
+                    className={`save-news-btn ${savedIds.has(article.id) ? 'saved' : ''}`}
+                    onClick={() => toggleSave(article)}
+                    title={savedIds.has(article.id) ? 'Remove from saved' : 'Save article'}
+                  >
+                    {savedIds.has(article.id) ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
+                    <span className="tts-label">{savedIds.has(article.id) ? 'Saved' : 'Save'}</span>
+                  </button>
                   <button
                     className="share-card-button"
                     onClick={() => shareArticle(article)}

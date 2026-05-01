@@ -183,6 +183,39 @@
      background-color: #6c757d;
    }
 
+   .remove-btn {
+     display: inline-flex;
+     align-items: center;
+     gap: 6px;
+     margin-top: 12px;
+     padding: 7px 14px;
+     background: #fee2e2;
+     color: #dc2626;
+     border: 1px solid #fca5a5;
+     border-radius: 6px;
+     font-size: 13px;
+     font-weight: 500;
+     cursor: pointer;
+     transition: all 0.2s ease;
+   }
+
+   .remove-btn:hover {
+     background: #dc2626;
+     color: white;
+     border-color: #dc2626;
+   }
+
+   [data-theme="dark"] .remove-btn {
+     background: rgba(220,38,38,0.15);
+     border-color: rgba(220,38,38,0.4);
+     color: #f87171;
+   }
+
+   [data-theme="dark"] .remove-btn:hover {
+     background: #dc2626;
+     color: white;
+   }
+
    @media (max-width: 768px) {
      .saved-container {
        padding: 3rem 1.5rem;
