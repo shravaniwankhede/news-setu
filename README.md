@@ -20,44 +20,51 @@ In a world flooded with fragmented information, Newsetu brings clarity to digita
 * **Text-to-Speech (TTS):** Designed for the visually impaired and users on-the-go.
 * **Inclusive Design:** Making complex news smarter, more honest, and accessible to everyone, regardless of language or ability.
 
-### 🛠 Technical Overview (MVP)
-* **Aggregation:** Powered by **NewsAPI** to pull diverse global sources.
-* **Value-Add:** Our proprietary AI insights layered on top of the raw data.
-* **Future Scale:** Designed for a freemium model, API licensing, and research partnerships.
-
----
-
-## 👥 Team Contributions
-
-We are a dedicated team working to redefine news transparency:
-
-| Name | Role | Core Responsibilities |
-| :--- | :--- | :--- |
-| **Siddhi Bhosale** | **Lead & Backend** | Project architecture, API integration (NewsAPI), and AI engine logic. |
-| **Shrawani Wankhede** | **Frontend** | UI/UX development, responsive design, and repository management. |
-| **Riddhi Dakare** | **Presenter & Frontend** | Project presentation, client-side features, and user testing. |
-| **Soniya Pangatte** | **Research & Frontend** | Market & bias research, content strategy, and UI implementation. |
-
----
-
-## 🤝 For Journalists
-We provide journalists with **reach, insights, and credibility.** In an era where trust is currency, Newsetu helps creators build a reputation for transparency while reaching a global, multilingual audience.
+### 🛠 Technical Overview
+- **Frontend**: React + Vite application.
+- **Backend**: Node.js + Express server.
+- **AI**: Integration with Together AI and OpenAI for analysis.
+- **Aggregation**: Powered by **NewsAPI** to pull diverse global sources.
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-* Node.js
-* [NewsAPI Key](https://newsapi.org/)
+### Local Setup
 
-### Installation
-```bash
-# Clone the repository
-git clone [https://github.com/shravaniwankhede/news-setu.git](https://github.com/shravaniwankhede/news-setu.git)
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/shravaniwankhede/news-setu.git
+   cd news-setu
+   ```
 
-# Navigate to the directory
-cd news-setu
+2. **Install dependencies**:
+   ```bash
+   npm run install-all
+   ```
+
+3. **Configure environment variables**:
+   Create a `.env` file in the `backend/` directory (see `backend/.env.example` for reference).
+
+4. **Run the project**:
+   - Backend: `npm start --prefix backend`
+   - Frontend: `npm run dev --prefix frontend`
+
+### Production Deployment
+
+This project is configured for easy deployment on platforms like Render or Heroku.
+
+1. **Build and Start**:
+   The root `package.json` includes scripts to build the frontend and start the backend:
+   ```bash
+   npm run build
+   npm start
+   ```
+
+2. **Render Deployment**:
+   This project includes a `render.yaml` for quick deployment. Connect your GitHub repository to Render and it will automatically detect the settings.
+
+---
 
 # Install dependencies
 npm install # or pip install -r requirements.txt
@@ -74,3 +81,5 @@ This project is a simple news website.
 Practice frontend development and GitHub usage.
 
 Started: April 2026 🚀
+## 🤝 For Journalists
+We provide journalists with **reach, insights, and credibility.** In an era where trust is currency, Newsetu helps creators build a reputation for transparency while reaching a global, multilingual audience.

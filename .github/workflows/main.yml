@@ -1,0 +1,22 @@
+name: Auto Label NSoC Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  label_issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add NSoC'26 label
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["NSoC'26"]
+            })

@@ -1,0 +1,20 @@
+{
+  "name": "news-setu-root",
+  "version": "1.0.0",
+  "description": "Root package for deployment",
+  "scripts": {
+    "install-all": "npm install --prefix backend && npm install --prefix frontend",
+    "build-frontend": "npm run build --prefix frontend",
+    "build": "npm run install-all && npm run build-frontend",
+    "start": "npm start --prefix backend"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.4",
+    "openai": "^5.10.2",
+    "together-ai": "^0.21.0"
+  }
+}

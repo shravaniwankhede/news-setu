@@ -1,9 +1,20 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+// Determine API Base URL based on environment
+// In production (Vercel), we use relative path '/api'
+// In development, we use the local backend URL
+const API_BASE_URL = import.meta.env.PROD 
+  ? '/api' 
+  : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:5000/api' 
+      : '/api');
+
+console.log(`[API Service] Using Base URL: ${API_BASE_URL}`);
 
 class ApiService {
   // Generic request method
   async request(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
+    // Ensure endpoint starts with a slash
+    const sanitizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const url = `${API_BASE_URL}${sanitizedEndpoint}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
