@@ -6,7 +6,7 @@ import LandingPage from './LandingPage.jsx'
 import Analytics from './Analytics.jsx'
 import Summary from './Summary.jsx'
 import About from './About.jsx'
-
+import Saved from './Saved.jsx'
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('landing');

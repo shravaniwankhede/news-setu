@@ -66,5 +66,20 @@ This project is configured for easy deployment on platforms like Render or Herok
 
 ---
 
+# Install dependencies
+npm install # or pip install -r requirements.txt
+# News Website
+
+This project is a simple news website.
+
+## Features (planned)
+- Homepage with latest news
+- Categories (Tech, Sports, etc.)
+- Responsive design
+
+## Goal
+Practice frontend development and GitHub usage.
+
+Started: April 2026 🚀
 ## 🤝 For Journalists
 We provide journalists with **reach, insights, and credibility.** In an era where trust is currency, Newsetu helps creators build a reputation for transparency while reaching a global, multilingual audience.
