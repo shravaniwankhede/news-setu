@@ -492,6 +492,14 @@ const LandingPage = ({ onPageChange }) => {
                     Emotional: {article.emotionalBias}
                   </span>
                 </div>
+                <a
+                href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="read-full-article"
+                >
+                  Read Full Article →
+                </a>
                 <div className="card-tts-controls">
                   <button
                     className={`save-news-btn ${savedIds.has(article.id) ? 'saved' : ''}`}
