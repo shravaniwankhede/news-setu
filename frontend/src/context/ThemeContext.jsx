@@ -12,17 +12,17 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    // Check for saved theme preference or default to system preference
+    // Resolve theme synchronously before first render to avoid FOUC
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
-    }
-    
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+    const resolved =
+      savedTheme ||
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light');
+    // Apply immediately so CSS sees the correct data-theme on first paint
+    document.documentElement.setAttribute('data-theme', resolved);
+    document.body.className = resolved;
+    return resolved;
   });
 
   useEffect(() => {

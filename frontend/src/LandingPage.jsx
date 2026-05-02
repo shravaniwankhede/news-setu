@@ -174,6 +174,7 @@ const getBiasClass = (bias) => {
 const LandingPage = ({ onPageChange }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBias, setSelectedBias] = useState("all");
   // Language filter: persisted in localStorage via LanguageFilter component
@@ -190,17 +191,25 @@ const LandingPage = ({ onPageChange }) => {
   const [ttsStates, setTtsStates] = useState({});
   const [speechUtterance, setSpeechUtterance] = useState(null);
 
-  // Fetch news on component mount and when search/category/language changes
+  // Debounce search query — only fire API after 400 ms of inactivity
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 400);
+    return () => clearTimeout(timerId);
+  }, [searchQuery]);
+
+  // Fetch news on component mount and when debounced search/category/language changes
   useEffect(() => {
     fetchNews();
-  }, [searchQuery, selectedCategory, selectedFilterLanguage]);
+  }, [debouncedSearchQuery, selectedCategory, selectedFilterLanguage]);
 
   const fetchNews = async () => {
     try {
       setLoading(true);
       // Pass selectedFilterLanguage as 3rd arg; 'all' means no language filter
       const response = await apiService.fetchNews(
-        searchQuery,
+        debouncedSearchQuery,
         selectedCategory,
         selectedFilterLanguage !== 'all' ? selectedFilterLanguage : ''
       );
@@ -385,7 +394,8 @@ const LandingPage = ({ onPageChange }) => {
             <option value="science">Science</option>
             <option value="politics">Politics</option>
             <option value="world">World</option>
-            <option value="local">Local</option>
+            <option value="sports">Sports</option>
+            <option value="health">Health</option>
           </select>
          
           <span className="dropdown-label">Bias Level: </span>
