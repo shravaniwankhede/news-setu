@@ -1,0 +1,131 @@
+.foot{
+    
+    padding:20px 30px 5px;
+    width:100%;
+    /* max-height:0.01vh; */
+    background-color:#111827;
+    color:white;
+    box-sizing:border-box;
+    opacity:0;
+    transform:translateY(30px);
+    animation:footerFade 4s ease forwards;
+    border-top:4px solid;
+    border-image:linear-gradient(to right,#3b82f6,#8b5cf6,#ec4899)1;
+    /* padding-right:30px; */
+    
+    
+}
+
+@keyframes footerFade{
+    to{
+        opacity :1;
+        transform:translateY(0);
+    }
+}
+
+.tog{
+    display:flex;
+    flex-wrap:wrap;
+}
+.sec {
+    padding-right:40px;
+    border-right:1px solid rgba(255,255,255,0.12);
+   padding-left:40px;
+   font-size:20px;
+   font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+/* .sec h3{
+    margin-right:70px
+    
+}
+.sec p{
+    margin-right:30px;
+    margin-left:30px;
+    
+} */
+
+.sec p:hover{
+    transform:scale(1.15);
+    font-weight:bold;
+    color:#3b82f6;
+    transform:translateX(4px);
+}
+.c1{
+     padding-right:20px;
+    border-right:1px solid rgba(255,255,255,0.12);
+}
+
+.c1 p{
+    font-size:18px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.c1 h2{
+    font-size:40px;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+    color:#3b82f6;
+    animation:colorShift 6s linear infinite alternate;
+    font-style:italic;
+    transition:transform 0.3 s ease,color 0.3 s ease
+
+}
+
+.r{
+    font-size:2 rem;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+    color:#3b82f6;
+    animation:colorShift 4s linear infinite alternate;
+}
+
+@keyframes colorShift{
+    0%{
+       color:#3b82f6;
+    }
+    25%{
+        color:#8b5cf6;
+    }
+    50%{
+        color:#ec4899;
+    }
+    75%{
+        color:#f59e0b;
+    }
+    100%{
+        color:#10b981;
+    }
+}
+
+.c1 h2:hover{
+    transform:scale(1.15);
+    text-shadow:0 0 12 px rgb(255,255,255);
+}
+
+
+
+.end{
+    margin-top:auto;
+    padding-bottom:10px;
+    padding-top:10px;
+
+    border-top:1px solid rgba(255,255,255,0.12);
+}
+
+.lo
+{
+
+    border:0px solid #111827;
+}
+
+.quote{
+    display:flex;
+    padding-top:30px;
+    justify-content:center;
+    text-align:center;
+
+    align-items:center;
+  
+}
