@@ -28,14 +28,16 @@ function Footer(){
             <div className="sec">
                 <h3 className="r">Links</h3>
                
-                <p>About</p>
-                <p>Contact Us</p>
-                <p>Terms</p>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/terms">Terms</a></li>
             </div>
             
 
             <div className="sec lo">
-                <h3 className="r quote">Journalism with clarity and credibility.</h3>
+                <div className=" quote"><h3 className="r">Journalism with clarity and credibility.</h3>
+                
+                </div>
                 <div className="end">© {new Date().getFullYear()} NewsSetu. All Rights Reserved...</div>
                
             </div>
