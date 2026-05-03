@@ -457,9 +457,6 @@ const LandingPage = ({ onPageChange }) => {
                   <span className="category">{article.category !== 'all' ? article.category : 'General'}</span>
                   {article.readTime && <span><Clock size={10} /> {article.readTime}</span>}
                   <span><Calendar size={10} /> {article.publishDate || (article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : '')}</span>
-                  <span className="category">{article.category}</span>
-                  <span><Clock size={10} /> {article.readTime}</span>
-                  <span><Calendar size={10} /> {article.publishDate || article.publishedAt?.slice(0, 10)}</span>
                   {/* Task #5 — Language badge */}
                   {article.language && (
                     <span
