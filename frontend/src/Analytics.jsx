@@ -107,7 +107,7 @@ const Analytics = ({ onPageChange }) => {
                 <span>{analytics.biasDistribution.low}%</span>
               </div>
               <div className="bar-track">
-                <div className="bar-fill blue" style={{ width: `${analytics.biasDistribution.low}%` }}></div>
+                <div className="bar-fill blue-fill" style={{ width: `${analytics.biasDistribution.low}%` }}></div>
               </div>
             </div>
 

@@ -2,7 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2, Bookmark, BookmarkCheck } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
+import LanguageFilter, { LANGUAGES } from "./components/LanguageFilter.jsx";
 import './styles/Landingpage.css';
+import  Footer from "./components/Footer"
+// Languages that use Indic scripts — get an orange badge variant
+const INDIAN_LANG_CODES = new Set(['hi', 'ta', 'bn', 'mr', 'te', 'kn', 'ml', 'pa', 'ur']);
+
+/** Return the short display label for a language code (e.g. 'hi' → 'HI · Hindi') */
+const getLangLabel = (code) => {
+  if (!code) return null;
+  const found = LANGUAGES.find((l) => l.code === code);
+  return found ? `${found.flag} ${code.toUpperCase()}` : code.toUpperCase();
+};
 
 const LandingPageData = [
   {
@@ -163,8 +174,13 @@ const getBiasClass = (bias) => {
 const LandingPage = ({ onPageChange }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBias, setSelectedBias] = useState("all");
+  // Language filter: persisted in localStorage via LanguageFilter component
+  const [selectedFilterLanguage, setSelectedFilterLanguage] = useState(
+    () => localStorage.getItem('newssetu_language_filter') || 'all'
+  );
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -175,15 +191,28 @@ const LandingPage = ({ onPageChange }) => {
   const [ttsStates, setTtsStates] = useState({});
   const [speechUtterance, setSpeechUtterance] = useState(null);
 
-  // Fetch news on component mount and when search/category changes
+  // Debounce search query — only fire API after 400 ms of inactivity
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 400);
+    return () => clearTimeout(timerId);
+  }, [searchQuery]);
+
+  // Fetch news on component mount and when debounced search/category/language changes
   useEffect(() => {
     fetchNews();
-  }, [searchQuery, selectedCategory]);
+  }, [debouncedSearchQuery, selectedCategory, selectedFilterLanguage]);
 
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const response = await apiService.fetchNews(searchQuery, selectedCategory);
+      // Pass selectedFilterLanguage as 3rd arg; 'all' means no language filter
+      const response = await apiService.fetchNews(
+        debouncedSearchQuery,
+        selectedCategory,
+        selectedFilterLanguage !== 'all' ? selectedFilterLanguage : ''
+      );
       // Map urlToImage to image for consistency
       const mappedArticles = (response.articles || []).map(article => ({
         ...article,
@@ -365,7 +394,8 @@ const LandingPage = ({ onPageChange }) => {
             <option value="science">Science</option>
             <option value="politics">Politics</option>
             <option value="world">World</option>
-            <option value="local">Local</option>
+            <option value="sports">Sports</option>
+            <option value="health">Health</option>
           </select>
          
           <span className="dropdown-label">Bias Level: </span>
@@ -375,6 +405,13 @@ const LandingPage = ({ onPageChange }) => {
             <option value="low">Low</option>
             <option value="high">High</option>
           </select>
+
+          {/* Task #3 & #4 — Language filter dropdown */}
+          <span className="dropdown-label">Language: </span>
+          <LanguageFilter
+            value={selectedFilterLanguage}
+            onChange={setSelectedFilterLanguage}
+          />
 
           <span className="dropdown-label">Translate to: </span>
           <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
@@ -394,9 +431,10 @@ const LandingPage = ({ onPageChange }) => {
         </header>
 
         <main className="articles">
-          {loading && <p>Loading articles...</p>}
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          {!loading && !error && filteredArticles.map((article) => (
+          {loading && <p className="loading-text">Loading articles...</p>}
+          {error && <p className="error-message" style={{ color: '#ff4d4d', backgroundColor: 'rgba(255, 77, 77, 0.1)', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>{error}</p>}
+          {!loading && filteredArticles.length > 0 ? (
+            filteredArticles.map((article) => (
             <div className="card" key={article.id}>
               <div className="image-container">
                 <img
@@ -419,6 +457,18 @@ const LandingPage = ({ onPageChange }) => {
                   <span className="category">{article.category !== 'all' ? article.category : 'General'}</span>
                   {article.readTime && <span><Clock size={10} /> {article.readTime}</span>}
                   <span><Calendar size={10} /> {article.publishDate || (article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : '')}</span>
+                  <span className="category">{article.category}</span>
+                  <span><Clock size={10} /> {article.readTime}</span>
+                  <span><Calendar size={10} /> {article.publishDate || article.publishedAt?.slice(0, 10)}</span>
+                  {/* Task #5 — Language badge */}
+                  {article.language && (
+                    <span
+                      className={`lang-badge${INDIAN_LANG_CODES.has(article.language) ? ' lang-indian' : ''}`}
+                      title={`Article language: ${article.language}`}
+                    >
+                      {getLangLabel(article.language)}
+                    </span>
+                  )}
                 </div>
                 <h3 className="title">
                   {translations[article.id] ? translations[article.id].title : article.title}
@@ -452,6 +502,14 @@ const LandingPage = ({ onPageChange }) => {
                     Emotional: {article.emotionalBias}
                   </span>
                 </div>
+                <a
+                href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="read-full-article"
+                >
+                  Read Full Article →
+                </a>
                 <div className="card-tts-controls">
                   <button
                     className={`save-news-btn ${savedIds.has(article.id) ? 'saved' : ''}`}
@@ -511,15 +569,16 @@ const LandingPage = ({ onPageChange }) => {
                     </button>
                   )}
                 </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            !loading && <p className="no-news-text">No news articles found. Try adjusting your search or category.</p>
+          )}
         </main>
-        <footer className="footer">
-         <p>NewsSetu - Your gateway to unbiased news </p>
-          <p>© 2025 News App. All rights reserved.</p>
-        </footer>
+      
       </div>
+      <Footer></Footer>
     </div>
   );
   

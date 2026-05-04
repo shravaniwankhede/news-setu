@@ -6,3 +6,12 @@ frontend/node_modules/
 dist/
 dist-ssr/
 .DS_Store
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+*.log
+backend/node_modules
+frontend/node_modules
+frontend/dist

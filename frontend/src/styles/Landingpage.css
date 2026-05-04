@@ -501,6 +501,42 @@ select {
   background-color: #6c757d;
 }
 
+/* Language badge on article cards */
+.lang-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background-color: rgba(108, 99, 255, 0.15);
+  color: #6c63ff;
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .lang-badge {
+  background-color: rgba(108, 99, 255, 0.2);
+  color: #a89fff;
+  border-color: rgba(108, 99, 255, 0.4);
+}
+
+/* Indian language badge variant */
+.lang-badge.lang-indian {
+  background-color: rgba(255, 153, 51, 0.15);
+  color: #cc6600;
+  border-color: rgba(255, 153, 51, 0.35);
+}
+
+[data-theme="dark"] .lang-badge.lang-indian {
+  background-color: rgba(255, 153, 51, 0.2);
+  color: #ffaa44;
+  border-color: rgba(255, 153, 51, 0.45);
+}
+
 .footer {
   margin-top: 60px;
   padding: 20px;

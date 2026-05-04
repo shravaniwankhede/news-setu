@@ -1,0 +1,146 @@
+.foot{
+    
+    padding:1.25rem 1.9rem 0.4rem;
+    width:100%;
+    background-color:#111827;
+    color:white;
+    box-sizing:border-box;
+    opacity:0;
+    transform:translateY(1.9rem);
+    animation:footerFade 4s ease forwards;
+    border-top:0.25rem solid;
+    border-image:linear-gradient(to right,#3b82f6,#8b5cf6,#ec4899)1;
+   
+    
+}
+
+@keyframes footerFade{
+    to{
+        opacity :1;
+        transform:translateY(0);
+    }
+}
+
+.tog{
+    display:flex;
+    flex-wrap:wrap;
+}
+.sec {
+    padding-right:2.5rem;
+    border-right:0.0625rem solid rgba(255,255,255,0.12);
+   padding-left:2.5rem;
+   font-size:1.25rem;
+   font-family:Georgia, 'Times New Roman', Times, serif;
+
+}
+
+.sec li a{
+    transition:transform 0.3s ease;
+}
+
+.sec p{
+    transition:transform 0.3s ease;
+}
+
+
+.sec p:hover{
+    transform:scale(1.15);
+    font-weight:bold;
+    color:#3b82f6;
+    transform:translateX(0.25rem);
+    opacity:1;
+}
+.sec li a:hover{
+    transform:scale(1.15);
+    font-weight:bold;
+    color:#3b82f6;
+    transform:translateX(0.25rem);
+    opacity:1;
+}
+.c1{
+     padding-right:1.25rem;
+    border-right:0.0625rem solid rgba(255,255,255,0.12);
+}
+
+.c1 p{
+    font-size:1.125rem;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.c1 h2{
+    font-size:2.5rem;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+    color:#3b82f6;
+    animation:colorShift 2s linear infinite alternate;
+    font-style:italic;
+    transition:transform 0.3 s ease,color 0.3 s ease;
+
+}
+
+.c1 h2:hover{
+    transform:scale(1.15);
+    text-shadow:0 0 0.75rem rgb(255,255,255);
+}
+
+
+.r{
+    font-size:2 rem;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+    color:#3b82f6;
+    animation:colorShift 1s linear infinite alternate;
+}
+
+@keyframes colorShift{
+    0%{
+       color:#3b82f6;
+    }
+    25%{
+        color:#8b5cf6;
+    }
+    50%{
+        color:#ec4899;
+    }
+    75%{
+        color:#f59e0b;
+    }
+    100%{
+        color:#10b981;
+    }
+}
+
+
+
+
+
+.end{
+    margin-top:auto;
+    padding-bottom:0.625rem;
+    padding-top:0.625rem;
+
+    border-top:0.0625rem solid rgba(255,255,255,0.12);
+}
+
+.lo
+{
+
+    border:0rem solid #111827;
+}
+
+.quote{
+    display:flex;
+    padding-top:1.9rem;
+    justify-content:center;
+    text-align:center;
+    align-items:center;
+  
+}
+
+.sec li{
+    margin-top:0.8rem;
+    margin-bottom:1.5 rem;
+    list-style:none;
+    
+}
