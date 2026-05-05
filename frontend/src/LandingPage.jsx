@@ -4,7 +4,7 @@ import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import LanguageFilter, { LANGUAGES } from "./components/LanguageFilter.jsx";
 import './styles/Landingpage.css';
-
+import  Footer from "./components/Footer"
 // Languages that use Indic scripts — get an orange badge variant
 const INDIAN_LANG_CODES = new Set(['hi', 'ta', 'bn', 'mr', 'te', 'kn', 'ml', 'pa', 'ur']);
 
@@ -576,11 +576,9 @@ const LandingPage = ({ onPageChange }) => {
             !loading && <p className="no-news-text">No news articles found. Try adjusting your search or category.</p>
           )}
         </main>
-        <footer className="footer">
-         <p>NewsSetu - Your gateway to unbiased news </p>
-          <p>© 2025 News App. All rights reserved.</p>
-        </footer>
+      
       </div>
+      <Footer></Footer>
     </div>
   );
   
