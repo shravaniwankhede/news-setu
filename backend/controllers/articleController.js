@@ -2,6 +2,7 @@ const Article = require('../models/Article');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const { franc } = require('franc-min');
+const aiService = require('../services/aiService');
 
 // Map franc 3-letter ISO 639-3 codes → 2-letter ISO 639-1 codes used by NewsAPI / UI
 const FRANC_TO_ISO2 = {
@@ -64,7 +65,7 @@ exports.saveArticle = async (req, res) => {
     }
     
     // Analyze bias for the article being saved
-    const biasAnalysis = analyzeBias(req.body.title, req.body.description);
+    const biasAnalysis = await analyzeBias(req.body.title, req.body.description);
     
     const articleData = {
       ...req.body,
@@ -244,8 +245,8 @@ exports.fetchNews = async (req, res) => {
       }
 
       // Analyze bias for each article
-      const analyzedArticles = filteredArticles.map(article => {
-        const biasAnalysis = analyzeBias(article.title, article.description);
+      const analyzedArticles = await Promise.all(filteredArticles.map(async article => {
+        const biasAnalysis = await analyzeBias(article.title, article.description);
         return {
           ...article,
           politicalBias: biasAnalysis.politicalBias,
@@ -253,7 +254,7 @@ exports.fetchNews = async (req, res) => {
           politicalBiasScore: biasAnalysis.politicalBiasScore,
           emotionalBiasScore: biasAnalysis.emotionalBiasScore
         };
-      });
+      }));
 
       res.json({
         articles: analyzedArticles,
@@ -293,8 +294,8 @@ exports.fetchNews = async (req, res) => {
     const newsArticles = response.data.articles || [];
     
     // Transform + detect language for each article
-    let articles = newsArticles.map((article, index) => {
-      const biasAnalysis = analyzeBias(article.title, article.description);
+    let articles = await Promise.all(newsArticles.map(async (article, index) => {
+      const biasAnalysis = await analyzeBias(article.title, article.description);
       const detectedLang = detectLanguage(`${article.title || ''} ${article.description || ''}`);
       return {
         id: index + 1,
@@ -312,7 +313,7 @@ exports.fetchNews = async (req, res) => {
         emotionalBiasScore: biasAnalysis.emotionalBiasScore,
         saved: false
       };
-    });
+    }));
 
     // Post-fetch language filter for languages not natively supported by NewsAPI
     if (language && language !== 'all') {
@@ -331,7 +332,15 @@ exports.fetchNews = async (req, res) => {
 };
 
 // AI Bias Analysis Function
-const analyzeBias = (title, description) => {
+const analyzeBias = async (title, description) => {
+  if (aiService.isAvailable()) {
+    const aiAnalysis = await aiService.analyzeBiasAndSentiment(title, description || '');
+    if (aiAnalysis) {
+      return aiAnalysis;
+    }
+  }
+
+  // Fallback keyword-based analysis
   const text = `${title} ${description}`.toLowerCase();
   
   // Political bias analysis

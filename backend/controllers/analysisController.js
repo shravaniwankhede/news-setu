@@ -1,18 +1,35 @@
-const axios = require('axios');
+const aiService = require('../services/aiService');
 
 // Analyze article for bias and sentiment
 exports.analyzeArticle = async (req, res) => {
   const { text, title, source } = req.body;
   
   try {
-    // For now, return sample analysis since we don't have API keys
+    if (aiService.isAvailable()) {
+      const aiAnalysis = await aiService.analyzeBiasAndSentiment(title, text);
+      if (aiAnalysis) {
+        return res.json({
+          ...aiAnalysis,
+          reliability: "High",
+          summary: `AI Analysis indicates ${aiAnalysis.politicalBias.toLowerCase()} political bias and ${aiAnalysis.emotionalBias.toLowerCase()} emotional tone.`,
+          keyPoints: [
+            "AI-powered analysis",
+            `Political Bias: ${aiAnalysis.politicalBias}`,
+            `Emotional Tone: ${aiAnalysis.emotionalBias}`
+          ],
+          analysis: `The article demonstrates a ${aiAnalysis.politicalBias.toLowerCase()} political bias and a ${aiAnalysis.emotionalBias.toLowerCase()} sentiment according to AI analysis.`
+        });
+      }
+    }
+
+    // Fallback to sample analysis if AI is not available or fails
     const sampleAnalysis = {
       politicalBias: "Moderate",
       politicalBiasScore: 45,
       emotionalBias: "Positive",
       emotionalBiasScore: 65,
       reliability: "High",
-      summary: "This article presents a balanced view with moderate political bias and positive emotional tone.",
+      summary: "This article presents a balanced view with moderate political bias and positive emotional tone. (Fallback Analysis)",
       keyPoints: [
         "Balanced reporting on the topic",
         "Multiple perspectives included",
@@ -34,9 +51,16 @@ exports.generateSummary = async (req, res) => {
   const { text, title } = req.body;
   
   try {
-    console.log('Generating summary for:', { text, title });
+    console.log('Generating summary for:', { title });
     
-    // Generate a more intelligent summary based on the actual content
+    if (aiService.isAvailable()) {
+      const aiSummary = await aiService.generateSummary(title, text);
+      if (aiSummary) {
+        return res.json(aiSummary);
+      }
+    }
+
+    // Fallback to sample summary
     const keyPoints = [];
     
     // Extract key information from the text
@@ -56,8 +80,7 @@ exports.generateSummary = async (req, res) => {
       keyPoints.push('Data and research findings presented');
     }
     
-    // Generate a contextual summary based on the actual content
-    let summary = `This article discusses ${title ? title.toLowerCase() : 'a significant topic'}. `;
+    let summary = `This article discusses ${title ? title.toLowerCase() : 'a significant topic'}. (Fallback Summary) `;
     
     if (text.length > 200) {
       summary += `The content provides detailed information about the subject, covering various aspects and implications. `;
@@ -197,7 +220,18 @@ exports.translateText = async (req, res) => {
   const { text, targetLang } = req.body;
   
   try {
-    // Sample translations for common article titles
+    if (aiService.isAvailable()) {
+      const translatedText = await aiService.translateText(text, targetLang);
+      if (translatedText) {
+        return res.json({
+          translatedText: translatedText,
+          originalText: text,
+          targetLanguage: targetLang
+        });
+      }
+    }
+
+    // Sample translations for common article titles (Fallback)
     const sampleTranslations = {
       'es': {
         'Revolutionary AI Technology Transforms Healthcare Industry': 'Tecnología de IA Revolucionaria Transforma la Industria de la Salud',
@@ -210,7 +244,7 @@ exports.translateText = async (req, res) => {
         'Global Food Security Initiative Launches in Developing Nations': 'Iniciativa Global de Seguridad Alimentaria Se Lanza en Naciones en Desarrollo',
         'Revolutionary Cancer Treatment Shows Promising Results': 'Tratamiento Revolucionario contra el Cáncer Muestra Resultados Prometedores',
         'Major Tech Company Announces Revolutionary AI Assistant': 'Empresa Tecnológica Principal Anuncia Asistente de IA Revolucionario',
-        'Historic Peace Agreement Signed Between Rival Nations': 'Acuerdo de Paz Histórico Firmado Entre Naciones Rivales',
+        'Historic Peace Agreement Signed Between Rival Nations': 'Acordo de Paz Histórico Firmado Entre Naciones Rivales',
         'Revolutionary Renewable Energy Storage Solution': 'Solución Revolucionaria de Almacenamiento de Energía Renovable'
       },
       'fr': {
@@ -382,7 +416,34 @@ exports.getBulkAnalysis = async (req, res) => {
       return res.status(400).json({ error: 'Articles array is required' });
     }
     
-    // For now, return sample bulk analysis since we don't have API keys
+    if (aiService.isAvailable()) {
+      // Analyze multiple articles in parallel
+      const analysesPromises = articles.map(async (article) => {
+        const aiAnalysis = await aiService.analyzeBiasAndSentiment(article.title, article.description || article.text || '');
+        if (aiAnalysis) {
+          return {
+            id: article.id,
+            ...aiAnalysis,
+            reliability: "High",
+            summary: `AI Analysis: ${aiAnalysis.politicalBias} political bias, ${aiAnalysis.emotionalBias} tone.`
+          };
+        }
+        return {
+          id: article.id,
+          politicalBias: "Moderate",
+          politicalBiasScore: 50,
+          emotionalBias: "Neutral",
+          emotionalBiasScore: 50,
+          reliability: "Medium",
+          summary: "Fallback analysis used."
+        };
+      });
+
+      const bulkAnalysis = await Promise.all(analysesPromises);
+      return res.json({ analyses: bulkAnalysis });
+    }
+
+    // Fallback bulk analysis
     const bulkAnalysis = articles.map((article, index) => ({
       id: article.id,
       politicalBias: "Moderate",
