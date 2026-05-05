@@ -262,3 +262,81 @@
     font-size: 2rem;
   }
 } 
+
+.about-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.highlight {
+  color: #6366f1;
+}
+
+.about-subtitle {
+  color: #666;
+  margin-top: 10px;
+}
+
+.about-section {
+  margin-bottom: 50px;
+}
+
+.glass {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* FEATURES */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 20px;
+  border-radius: 16px;
+  background: #f9fafb;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.feature-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.tech-stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.tech-card {
+  background: #f3f4f6;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.roadmap-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.roadmap-icon {
+  font-size: 24px;
+}
