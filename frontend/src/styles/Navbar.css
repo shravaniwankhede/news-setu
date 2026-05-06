@@ -32,6 +32,9 @@
 .navbar .nav-links-desktop {
   display: flex;
   gap: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navbar .nav-links-desktop a {
