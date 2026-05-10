@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.38.0",
     "lucide-react": "^0.525.0",
     "news-setu-root": "file:..",
     "react": "^19.1.0",
