@@ -443,7 +443,6 @@ const LandingPage = ({ onPageChange }) => {
                   className="image"
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/250x300?text=No+Image'; }}
                 />
-                />
               </div>
               <div className="content">
                 <div className="meta">
