@@ -443,23 +443,14 @@ const LandingPage = ({ onPageChange }) => {
                   className="image"
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/250x300?text=No+Image'; }}
                 />
-                <button className="summarize" onClick={() => handleSummaryClick(article)}>✓ Summarize</button>
-                <button 
-                  className="translate-button" 
-                  onClick={() => translateArticle(article)}
-                  disabled={translating[article.id]}
-                >
-                  {translating[article.id] ? 'Translating...' : <Languages size={16} />}
-                </button>
               </div>
               <div className="content">
                 <div className="meta">
                   <span className="category">{article.category !== 'all' ? article.category : 'General'}</span>
                   {article.readTime && <span><Clock size={10} /> {article.readTime}</span>}
                   <span><Calendar size={10} /> {article.publishDate || (article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : '')}</span>
-                  <span className="category">{article.category}</span>
-                  <span><Clock size={10} /> {article.readTime}</span>
-                  <span><Calendar size={10} /> {article.publishDate || article.publishedAt?.slice(0, 10)}</span>
+
+
                   {/* Task #5 — Language badge */}
                   {article.language && (
                     <span
@@ -510,7 +501,20 @@ const LandingPage = ({ onPageChange }) => {
                 >
                   Read Full Article →
                 </a>
-                <div className="card-tts-controls">
+                <div className="card-actions">
+                  <button className="summarize-btn" onClick={() => handleSummaryClick(article)}>
+                    <Play size={14} />
+                    <span className="tts-label">Summarize</span>
+                  </button>
+                  <button 
+                    className="translate-card-btn" 
+                    onClick={() => translateArticle(article)}
+                    disabled={translating[article.id]}
+                    title="Translate article"
+                  >
+                    <Languages size={14} />
+                    <span className="tts-label">{translating[article.id] ? 'Translating...' : 'Translate'}</span>
+                  </button>
                   <button
                     className={`save-news-btn ${savedIds.has(article.id) ? 'saved' : ''}`}
                     onClick={() => toggleSave(article)}

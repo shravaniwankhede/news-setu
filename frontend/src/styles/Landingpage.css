@@ -116,45 +116,7 @@ select {
 }
 
 
-.summarize {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #333;
-  transition: all 0.3s ease;
-}
-
-.translate-button {
-  position: absolute;
-  bottom: 40px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #333;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.translate-button:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.05);
-}
-
-.translate-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+/* Removed old absolute-positioned button styles */
 
 .tts-button {
   position: absolute;
@@ -218,7 +180,7 @@ select {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card-tts-controls {
+.card-actions {
   position: absolute;
   bottom: 14px;
   right: 14px;
@@ -228,6 +190,36 @@ select {
   flex-wrap: wrap;
   justify-content: flex-end;
   max-width: calc(100% - 28px);
+}
+
+.summarize-btn, .translate-card-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  height: 36px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.summarize-btn:hover, .translate-card-btn:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.translate-card-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .share-card-button {
@@ -464,6 +456,7 @@ select {
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -623,7 +616,7 @@ select {
     gap: 10px;
   }
 
-  .card-tts-controls {
+  .card-actions {
     bottom: 10px;
     right: 10px;
   }
