@@ -1,25 +1,24 @@
 const aiService = require('../services/aiService');
+const biasAnalysisService = require('../services/biasAnalysisService');
 
 // Analyze article for bias and sentiment
 exports.analyzeArticle = async (req, res) => {
   const { text, title, source } = req.body;
   
   try {
-    if (aiService.isAvailable()) {
-      const aiAnalysis = await aiService.analyzeBiasAndSentiment(title, text);
-      if (aiAnalysis) {
-        return res.json({
-          ...aiAnalysis,
-          reliability: "High",
-          summary: `AI Analysis indicates ${aiAnalysis.politicalBias.toLowerCase()} political bias and ${aiAnalysis.emotionalBias.toLowerCase()} emotional tone.`,
-          keyPoints: [
-            "AI-powered analysis",
-            `Political Bias: ${aiAnalysis.politicalBias}`,
-            `Emotional Tone: ${aiAnalysis.emotionalBias}`
-          ],
-          analysis: `The article demonstrates a ${aiAnalysis.politicalBias.toLowerCase()} political bias and a ${aiAnalysis.emotionalBias.toLowerCase()} sentiment according to AI analysis.`
-        });
-      }
+    const aiAnalysis = await biasAnalysisService.analyzeArticle(title, text);
+    if (aiAnalysis) {
+      return res.json({
+        ...aiAnalysis,
+        reliability: "High",
+        summary: `AI Analysis indicates ${aiAnalysis.politicalBias.toLowerCase()} political bias and ${aiAnalysis.emotionalBias.toLowerCase()} emotional tone.`,
+        keyPoints: [
+          "AI-powered analysis",
+          `Political Bias: ${aiAnalysis.politicalBias}`,
+          `Emotional Tone: ${aiAnalysis.emotionalBias}`
+        ],
+        analysis: `The article demonstrates a ${aiAnalysis.politicalBias.toLowerCase()} political bias and a ${aiAnalysis.emotionalBias.toLowerCase()} sentiment according to AI analysis.`
+      });
     }
 
     // Fallback to sample analysis if AI is not available or fails
@@ -416,45 +415,20 @@ exports.getBulkAnalysis = async (req, res) => {
       return res.status(400).json({ error: 'Articles array is required' });
     }
     
-    if (aiService.isAvailable()) {
-      // Analyze multiple articles in parallel
-      const analysesPromises = articles.map(async (article) => {
-        const aiAnalysis = await aiService.analyzeBiasAndSentiment(article.title, article.description || article.text || '');
-        if (aiAnalysis) {
-          return {
-            id: article.id,
-            ...aiAnalysis,
-            reliability: "High",
-            summary: `AI Analysis: ${aiAnalysis.politicalBias} political bias, ${aiAnalysis.emotionalBias} tone.`
-          };
-        }
-        return {
-          id: article.id,
-          politicalBias: "Moderate",
-          politicalBiasScore: 50,
-          emotionalBias: "Neutral",
-          emotionalBiasScore: 50,
-          reliability: "Medium",
-          summary: "Fallback analysis used."
-        };
-      });
-
-      const bulkAnalysis = await Promise.all(analysesPromises);
-      return res.json({ analyses: bulkAnalysis });
-    }
-
-    // Fallback bulk analysis
-    const bulkAnalysis = articles.map((article, index) => ({
-      id: article.id,
-      politicalBias: "Moderate",
-      politicalBiasScore: 45 + (index % 20),
-      emotionalBias: "Positive",
-      emotionalBiasScore: 60 + (index % 15),
-      reliability: "High",
-      summary: `Analysis of article ${index + 1}: Balanced reporting with moderate bias.`
-    }));
+    // Analyze multiple articles with caching, deduplication, and concurrency limit
+    const bulkAnalysis = await biasAnalysisService.analyzeBatch(articles);
     
-    res.json({ analyses: bulkAnalysis });
+    const formattedAnalysis = bulkAnalysis.map(article => ({
+      id: article.id,
+      politicalBias: article.politicalBias,
+      politicalBiasScore: article.politicalBiasScore,
+      emotionalBias: article.emotionalBias,
+      emotionalBiasScore: article.emotionalBiasScore,
+      reliability: "High",
+      summary: `AI Analysis: ${article.politicalBias} political bias, ${article.emotionalBias} tone.`
+    }));
+
+    return res.json({ analyses: formattedAnalysis });
   } catch (error) {
     console.error('Error bulk analyzing articles:', error);
     res.status(500).json({ error: 'Error bulk analyzing articles' });
