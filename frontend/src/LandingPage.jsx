@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2, Bookmark, BookmarkCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { Clock, Calendar, Languages, Volume2, VolumeX, Play, Pause, Share2, Bookmark, BookmarkCheck, Globe, Cpu, Leaf, Briefcase, FlaskConical, Landmark, Trophy, HeartPulse, LayoutGrid } from "lucide-react";
 import { useTheme } from "./context/ThemeContext.jsx";
 import apiService from "./services/api.js";
 import LanguageFilter, { LANGUAGES } from "./components/LanguageFilter.jsx";
 import './styles/Landingpage.css';
-import  Footer from "./components/Footer"
+import Footer from "./components/Footer"
 // Languages that use Indic scripts — get an orange badge variant
 const INDIAN_LANG_CODES = new Set(['hi', 'ta', 'bn', 'mr', 'te', 'kn', 'ml', 'pa', 'ur']);
 
@@ -373,69 +374,109 @@ const LandingPage = ({ onPageChange }) => {
     return matchesSearch && matchesCategory && matchesBias;
   });
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
+  const categories = [
+    { id: "all", label: "All News", icon: <LayoutGrid size={18} />, desc: "Top headlines" },
+    { id: "technology", label: "Tech", icon: <Cpu size={18} />, desc: "Gadgets & IT" },
+    { id: "environment", label: "Nature", icon: <Leaf size={18} />, desc: "Climate news" },
+    { id: "business", label: "Business", icon: <Briefcase size={18} />, desc: "Markets & finance" },
+    { id: "science", label: "Science", icon: <FlaskConical size={18} />, desc: "Discoveries" },
+    { id: "politics", label: "Politics", icon: <Landmark size={18} />, desc: "Gov & policy" },
+    { id: "world", label: "World", icon: <Globe size={18} />, desc: "Global events" },
+    { id: "sports", label: "Sports", icon: <Trophy size={18} />, desc: "Scores & highlights" },
+    { id: "health", label: "Health", icon: <HeartPulse size={18} />, desc: "Wellness & med" }
+  ];
+
   return (
     <div className="landing-page">
       <div className="app">
-        <header className="header">
-          <input
-            type="text"
-            className="search"
-            placeholder="  Search news articles..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="page-layout">
+          <aside className="sidebar">
+            <div className="sidebar-section">
+              <h3 className="sidebar-title">Categories</h3>
+              <div className="category-grid">
+                {categories.map((cat) => (
+                  <button 
+                    key={cat.id}
+                    className={`category-card ${selectedCategory === cat.id ? 'active' : ''}`}
+                    onClick={() => setSelectedCategory(cat.id)}
+                  >
+                    <div className="cat-icon">{cat.icon}</div>
+                    <div className="cat-info">
+                      <span className="cat-title">{cat.label}</span>
+                      <span className="cat-desc">{cat.desc}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-          <span className="dropdown-label">Categories: </span>
-          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option value="all">All Categories</option>
-            <option value="technology">Technology</option>
-            <option value="environment">Environment</option>
-            <option value="business">Business</option>
-            <option value="science">Science</option>
-            <option value="politics">Politics</option>
-            <option value="world">World</option>
-            <option value="sports">Sports</option>
-            <option value="health">Health</option>
-          </select>
-         
-          <span className="dropdown-label">Bias Level: </span>
-          <select value={selectedBias} onChange={(e) => setSelectedBias(e.target.value)}>
-            <option value="all">All Bias Levels</option>
-            <option value="moderate">Moderate</option>
-            <option value="low">Low</option>
-            <option value="high">High</option>
-          </select>
+          </aside>
 
-          {/* Task #3 & #4 — Language filter dropdown */}
-          <span className="dropdown-label">Language: </span>
-          <LanguageFilter
-            value={selectedFilterLanguage}
-            onChange={setSelectedFilterLanguage}
-          />
+          <div className="main-content">
+            <header className="header-search">
+              <div className="search-wrapper">
+                <input
+                  type="text"
+                  className="search"
+                  placeholder="Search news articles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="top-filters">
+                <select className="filter-select" value={selectedBias} onChange={(e) => setSelectedBias(e.target.value)}>
+                  <option value="all">All Bias Levels</option>
+                  <option value="moderate">Moderate Bias</option>
+                  <option value="low">Low Bias</option>
+                  <option value="high">High Bias</option>
+                </select>
 
-          <span className="dropdown-label">Translate to: </span>
-          <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="hi">Hindi</option>
-            <option value="zh">Chinese</option>
-            <option value="ar">Arabic</option>
-            <option value="ja">Japanese</option>
-            <option value="ko">Korean</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-          </select>
+                <LanguageFilter
+                  value={selectedFilterLanguage}
+                  onChange={setSelectedFilterLanguage}
+                />
 
+                <select className="filter-select" value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
+                  <option value="es">Translate: ES</option>
+                  <option value="fr">Translate: FR</option>
+                  <option value="de">Translate: DE</option>
+                  <option value="hi">Translate: HI</option>
+                  <option value="zh">Translate: ZH</option>
+                  <option value="ar">Translate: AR</option>
+                  <option value="ja">Translate: JA</option>
+                  <option value="ko">Translate: KO</option>
+                  <option value="pt">Translate: PT</option>
+                  <option value="ru">Translate: RU</option>
+                </select>
+              </div>
+            </header>
 
-        </header>
-
-        <main className="articles">
+        <motion.main 
+          className="articles"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
           {loading && <p className="loading-text">Loading articles...</p>}
           {error && <p className="error-message" style={{ color: '#ff4d4d', backgroundColor: 'rgba(255, 77, 77, 0.1)', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>{error}</p>}
           {!loading && filteredArticles.length > 0 ? (
             filteredArticles.map((article) => (
-            <div className="card" key={article.id}>
+            <motion.div variants={itemVariants} className="card" key={article.id}>
               <div className="image-container">
                 <img
                   src={article.image || 'https://placehold.co/250x300?text=No+Image'}
@@ -574,13 +615,14 @@ const LandingPage = ({ onPageChange }) => {
                   )}
                 </div>
                 </div>
-              </div>
+              </motion.div>
             ))
           ) : (
             !loading && <p className="no-news-text">No news articles found. Try adjusting your search or category.</p>
           )}
-        </main>
-      
+          </motion.main>
+          </div>
+        </div>
       </div>
       <Footer></Footer>
     </div>

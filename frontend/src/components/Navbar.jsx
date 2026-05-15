@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
 import '../styles/Navbar.css';
@@ -16,13 +17,25 @@ const Navbar = ({ onPageChange, currentPage }) => {
   };
 
   return (
-    <nav className={`navbar ${theme}`}>
-      <div className={`logo ${currentPage === 'landing' ? 'active' : ''}`} onClick={handleHomeClick}>NewsSetu</div>
+    <motion.nav 
+      className={`navbar ${theme}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: "spring", stiffness: 100, damping: 20 }}
+    >
+      <motion.div 
+        className={`logo ${currentPage === 'landing' ? 'active' : ''}`} 
+        onClick={handleHomeClick}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        NewsSetu
+      </motion.div>
 
       <div className="nav-links-desktop">
-        <a href="#" onClick={handleHomeClick} className={currentPage === 'landing' ? 'active' : ''}>Home</a>
-        <a href="#" onClick={() => onPageChange('saved')} className={currentPage === 'saved' ? 'active' : ''}>🔖 Saved</a>
-        <a href="#" onClick={() => onPageChange('about')} className={currentPage === 'about' ? 'active' : ''}>About</a>
+        <motion.a whileHover={{ y: -2 }} href="#" onClick={handleHomeClick} className={currentPage === 'landing' ? 'active' : ''}>Home</motion.a>
+        <motion.a whileHover={{ y: -2 }} href="#" onClick={() => onPageChange('saved')} className={currentPage === 'saved' ? 'active' : ''}>🔖 Saved</motion.a>
+        <motion.a whileHover={{ y: -2 }} href="#" onClick={() => onPageChange('about')} className={currentPage === 'about' ? 'active' : ''}>About</motion.a>
       </div>
 
       <div className="navbar-right">
@@ -48,7 +61,7 @@ const Navbar = ({ onPageChange, currentPage }) => {
         <a href="#" onClick={() => onPageChange('saved')} className={currentPage === 'saved' ? 'active' : ''}>🔖 Saved</a>
         <a href="#" onClick={() => onPageChange('about')} className={currentPage === 'about' ? 'active' : ''}>About</a>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
