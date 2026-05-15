@@ -8,37 +8,41 @@
 }
 
 .language-filter-flag {
+  position: absolute;
+  left: 14px;
   font-size: 1.1rem;
   line-height: 1;
   pointer-events: none;
   user-select: none;
+  z-index: 1;
 }
 
 .language-filter-select {
   appearance: none;
   -webkit-appearance: none;
-  background-color: var(--select-bg, rgba(255, 255, 255, 0.08));
-  color: var(--select-color, inherit);
-  border: 1px solid var(--select-border, rgba(255, 255, 255, 0.18));
-  border-radius: 8px;
-  padding: 6px 28px 6px 10px;
-  font-size: 0.875rem;
-  font-family: inherit;
+  padding: 14px 16px 14px 40px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--input-text);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 140px;
+  font-family: inherit;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  min-width: 140px;
+  background-position: right 14px center;
 }
 
 .language-filter-select:hover {
-  border-color: var(--select-hover-border, rgba(255, 255, 255, 0.4));
-  background-color: var(--select-hover-bg, rgba(255, 255, 255, 0.14));
+  border-color: var(--accent-color);
 }
 
 .language-filter-select:focus {
   outline: none;
-  border-color: var(--accent, #6c63ff);
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.25);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }

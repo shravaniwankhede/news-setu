@@ -1,15 +1,17 @@
-/* Navbar specific styles - more specific selectors to avoid conflicts */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 15px 5%;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 999;
   transition: all 0.3s ease;
   background-color: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
   color: var(--nav-text);
   flex-wrap: wrap;
   box-sizing: border-box;
