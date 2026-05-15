@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const { franc } = require('franc-min');
 const aiService = require('../services/aiService');
+const biasAnalysisService = require('../services/biasAnalysisService');
 
 // Map franc 3-letter ISO 639-3 codes → 2-letter ISO 639-1 codes used by NewsAPI / UI
 const FRANC_TO_ISO2 = {
@@ -65,7 +66,7 @@ exports.saveArticle = async (req, res) => {
     }
     
     // Analyze bias for the article being saved
-    const biasAnalysis = await analyzeBias(req.body.title, req.body.description);
+    const biasAnalysis = await biasAnalysisService.analyzeArticle(req.body.title, req.body.description);
     
     const articleData = {
       ...req.body,
@@ -244,17 +245,8 @@ exports.fetchNews = async (req, res) => {
         );
       }
 
-      // Analyze bias for each article
-      const analyzedArticles = await Promise.all(filteredArticles.map(async article => {
-        const biasAnalysis = await analyzeBias(article.title, article.description);
-        return {
-          ...article,
-          politicalBias: biasAnalysis.politicalBias,
-          emotionalBias: biasAnalysis.emotionalBias,
-          politicalBiasScore: biasAnalysis.politicalBiasScore,
-          emotionalBiasScore: biasAnalysis.emotionalBiasScore
-        };
-      }));
+      // Analyze bias for each article (Batch processing with deduplication and concurrency control)
+      const analyzedArticles = await biasAnalysisService.analyzeBatch(filteredArticles);
 
       res.json({
         articles: analyzedArticles,
@@ -294,8 +286,7 @@ exports.fetchNews = async (req, res) => {
     const newsArticles = response.data.articles || [];
     
     // Transform + detect language for each article
-    let articles = await Promise.all(newsArticles.map(async (article, index) => {
-      const biasAnalysis = await analyzeBias(article.title, article.description);
+    let articles = newsArticles.map((article, index) => {
       const detectedLang = detectLanguage(`${article.title || ''} ${article.description || ''}`);
       return {
         id: index + 1,
@@ -307,18 +298,18 @@ exports.fetchNews = async (req, res) => {
         category: category || 'General',
         publishedAt: article.publishedAt,
         language: detectedLang,
-        politicalBias: biasAnalysis.politicalBias,
-        emotionalBias: biasAnalysis.emotionalBias,
-        politicalBiasScore: biasAnalysis.politicalBiasScore,
-        emotionalBiasScore: biasAnalysis.emotionalBiasScore,
         saved: false
       };
-    }));
-
+    });
+    
     // Post-fetch language filter for languages not natively supported by NewsAPI
+    // We filter BEFORE analysis to save AI costs and prevent rate-limiting on discarded items
     if (language && language !== 'all') {
       articles = articles.filter(a => a.language === language);
     }
+
+    // Bulk analysis with caching, deduplication and concurrency limit
+    articles = await biasAnalysisService.analyzeBatch(articles);
 
     res.json({
       articles: articles,
@@ -331,105 +322,7 @@ exports.fetchNews = async (req, res) => {
   }
 };
 
-// AI Bias Analysis Function
-const analyzeBias = async (title, description) => {
-  if (aiService.isAvailable()) {
-    const aiAnalysis = await aiService.analyzeBiasAndSentiment(title, description || '');
-    if (aiAnalysis) {
-      return aiAnalysis;
-    }
-  }
-
-  // Fallback keyword-based analysis
-  const text = `${title} ${description}`.toLowerCase();
-  
-  // Political bias analysis
-  let politicalBiasScore = 50; // Neutral starting point
-  let politicalBias = 'Moderate';
-  
-  // Keywords that indicate political bias
-  const conservativeKeywords = ['conservative', 'republican', 'trump', 'right-wing', 'traditional', 'patriot'];
-  const liberalKeywords = ['liberal', 'democrat', 'progressive', 'left-wing', 'reform', 'equality'];
-  const neutralKeywords = ['bipartisan', 'compromise', 'balanced', 'objective', 'factual'];
-  
-  // Count keyword occurrences
-  let conservativeCount = 0;
-  let liberalCount = 0;
-  let neutralCount = 0;
-  
-  conservativeKeywords.forEach(keyword => {
-    const regex = new RegExp(keyword, 'gi');
-    conservativeCount += (text.match(regex) || []).length;
-  });
-  
-  liberalKeywords.forEach(keyword => {
-    const regex = new RegExp(keyword, 'gi');
-    liberalCount += (text.match(regex) || []).length;
-  });
-  
-  neutralKeywords.forEach(keyword => {
-    const regex = new RegExp(keyword, 'gi');
-    neutralCount += (text.match(regex) || []).length;
-  });
-  
-  // Calculate political bias score
-  if (conservativeCount > liberalCount) {
-    politicalBiasScore = 70 + (conservativeCount * 5);
-    politicalBias = 'High';
-  } else if (liberalCount > conservativeCount) {
-    politicalBiasScore = 30 - (liberalCount * 5);
-    politicalBias = 'High';
-  } else if (neutralCount > 0) {
-    politicalBiasScore = 45 + (neutralCount * 2);
-    politicalBias = 'Low';
-  } else {
-    politicalBiasScore = 50;
-    politicalBias = 'Moderate';
-  }
-  
-  // Emotional bias analysis
-  let emotionalBiasScore = 50;
-  let emotionalBias = 'Neutral';
-  
-  const positiveKeywords = ['positive', 'success', 'achievement', 'breakthrough', 'hope', 'optimistic', 'exciting'];
-  const negativeKeywords = ['negative', 'failure', 'crisis', 'disaster', 'fear', 'pessimistic', 'worrisome'];
-  
-  let positiveCount = 0;
-  let negativeCount = 0;
-  
-  positiveKeywords.forEach(keyword => {
-    const regex = new RegExp(keyword, 'gi');
-    positiveCount += (text.match(regex) || []).length;
-  });
-  
-  negativeKeywords.forEach(keyword => {
-    const regex = new RegExp(keyword, 'gi');
-    negativeCount += (text.match(regex) || []).length;
-  });
-  
-  // Calculate emotional bias score
-  if (positiveCount > negativeCount) {
-    emotionalBiasScore = 60 + (positiveCount * 3);
-    emotionalBias = 'Positive';
-  } else if (negativeCount > positiveCount) {
-    emotionalBiasScore = 40 - (negativeCount * 3);
-    emotionalBias = 'Negative';
-  } else {
-    emotionalBiasScore = 50;
-    emotionalBias = 'Neutral';
-  }
-  
-  // Ensure scores are within bounds
-  politicalBiasScore = Math.max(0, Math.min(100, politicalBiasScore));
-  emotionalBiasScore = Math.max(0, Math.min(100, emotionalBiasScore));
-  
-  return {
-    politicalBias,
-    politicalBiasScore: Math.round(politicalBiasScore),
-    emotionalBias,
-    emotionalBiasScore: Math.round(emotionalBiasScore)
-  };
-};
+// Bias Analysis function removed as it is now handled by biasAnalysisService
 
 // Get saved articles count
 exports.getSavedArticlesCount = async (req, res) => {
