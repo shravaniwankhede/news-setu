@@ -1,0 +1,45 @@
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.25rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  visibility: hidden;
+  transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.75);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .back-to-top {
+    right: 0.75rem;
+    bottom: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
